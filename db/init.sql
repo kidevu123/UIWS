@@ -12,14 +12,27 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS appointments (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   title TEXT NOT NULL,
+  description TEXT,
   start_time TIMESTAMP,
-  end_time TIMESTAMP
+  end_time TIMESTAMP,
+  created_at TIMESTAMP DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS fantasies (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   author_id UUID REFERENCES users(id),
   title TEXT, content TEXT, created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS media (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  filename TEXT NOT NULL,
+  original_name TEXT NOT NULL,
+  mimetype TEXT NOT NULL,
+  size INTEGER NOT NULL,
+  category TEXT DEFAULT 'gallery',
+  is_private BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT now()
 );
 
 -- Settings store
