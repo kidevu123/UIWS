@@ -14,6 +14,18 @@ interface ChatMessage {
   };
 }
 
+interface BackendMessage {
+  id: string;
+  sender_id: string;
+  recipient_id: string;
+  content: string;
+  message_type: string;
+  media_filename: string | null;
+  created_at: string;
+  sender_role: string;
+  recipient_role: string;
+}
+
 export default function PrivateChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
@@ -31,29 +43,42 @@ export default function PrivateChat() {
       .then(setUser)
       .catch(console.error);
 
-    // Simulate connection to VoceChat
+    // Load real chat messages
+    loadMessages();
+    
+    // Set up real-time connection status
     setIsConnected(true);
-    setPartnerOnline(Math.random() > 0.5); // Simulate partner online status
-
-    // Load demo messages
-    const demoMessages: ChatMessage[] = [
-      {
-        id: '1',
-        sender: 'partner',
-        content: 'Hey beautiful, how was your day? 💕',
-        timestamp: new Date(Date.now() - 300000),
-        type: 'text'
-      },
-      {
-        id: '2', 
-        sender: 'me',
-        content: 'It was wonderful thinking about you all day ✨',
-        timestamp: new Date(Date.now() - 240000),
-        type: 'text'
-      }
-    ];
-    setMessages(demoMessages);
+    setPartnerOnline(Math.random() > 0.5); // TODO: Replace with real partner status check
   }, []);
+
+  const loadMessages = async () => {
+    try {
+      const response = await fetch('/api/chat/messages?limit=50');
+      if (response.ok) {
+        const messages = await response.json();
+        
+        // Transform backend messages to frontend format
+        const transformedMessages = messages.map((msg: BackendMessage) => ({
+          id: msg.id,
+          sender: msg.sender_role === user?.role ? 'me' : 'partner',
+          content: msg.content,
+          timestamp: new Date(msg.created_at),
+          type: msg.message_type,
+          file: msg.media_filename ? {
+            name: msg.media_filename,
+            url: `/api/media/file/${msg.media_filename}`,
+            type: msg.message_type
+          } : undefined
+        })).reverse(); // Show oldest first
+        
+        setMessages(transformedMessages);
+      }
+    } catch (e) {
+      console.error('Failed to load messages:', e);
+      // Fallback: show empty state instead of demo messages
+      setMessages([]);
+    }
+  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -62,45 +87,46 @@ export default function PrivateChat() {
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
-    const newMessage: ChatMessage = {
-      id: Date.now().toString(),
-      sender: 'me',
-      content: input.trim(),
-      timestamp: new Date(),
-      type: 'text'
-    };
-
-    setMessages(prev => [...prev, newMessage]);
+    const messageContent = input.trim();
     setInput('');
     setIsLoading(true);
 
-    // Simulate sending through VoceChat API
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Get recipient (the other user)
+      const usersResponse = await fetch('/api/auth/me');
+      const currentUser = await usersResponse.json();
       
-      // Simulate partner response occasionally
-      if (Math.random() > 0.7) {
-        setTimeout(() => {
-          const responses = [
-            "I love hearing from you 💖",
-            "That sounds amazing! Tell me more",
-            "You always know how to make me smile ✨",
-            "I can't wait to be with you again 💝"
-          ];
-          
-          const partnerMessage: ChatMessage = {
-            id: (Date.now() + 1).toString(),
-            sender: 'partner',
-            content: responses[Math.floor(Math.random() * responses.length)],
-            timestamp: new Date(),
-            type: 'text'
-          };
-          
-          setMessages(prev => [...prev, partnerMessage]);
-        }, 1000 + Math.random() * 2000);
+      // Send message via API
+      const response = await fetch('/api/chat/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          recipient_id: null, // For now, messages go to both users
+          content: messageContent,
+          message_type: 'text'
+        })
+      });
+
+      if (response.ok) {
+        // Reload messages to get the latest
+        await loadMessages();
+      } else {
+        throw new Error('Failed to send message');
       }
     } catch (error) {
       console.error('Failed to send message:', error);
+      
+      // Show error state
+      const errorMessage: ChatMessage = {
+        id: Date.now().toString(),
+        sender: 'system',
+        content: 'Failed to send message. Please try again.',
+        timestamp: new Date(),
+        type: 'text'
+      };
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -117,21 +143,61 @@ export default function PrivateChat() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const newMessage: ChatMessage = {
-      id: Date.now().toString(),
-      sender: 'me',
-      content: `Shared ${file.type.startsWith('image/') ? 'photo' : 'file'}: ${file.name}`,
-      timestamp: new Date(),
-      type: file.type.startsWith('image/') ? 'image' : 'file',
-      file: {
-        name: file.name,
-        url: URL.createObjectURL(file),
-        type: file.type
-      }
-    };
+    setIsLoading(true);
 
-    setMessages(prev => [...prev, newMessage]);
-    e.target.value = '';
+    try {
+      // Upload file to media API
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('category', 'chat');
+      formData.append('isPrivate', 'true');
+
+      const uploadResponse = await fetch('/api/media/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error('Failed to upload file');
+      }
+
+      const uploadResult = await uploadResponse.json();
+
+      // Send chat message with media reference
+      const messageResponse = await fetch('/api/chat/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          recipient_id: null,
+          content: `Shared ${file.type.startsWith('image/') ? 'photo' : 'file'}: ${file.name}`,
+          message_type: file.type.startsWith('image/') ? 'image' : 'file',
+          media_filename: uploadResult.filename
+        })
+      });
+
+      if (messageResponse.ok) {
+        await loadMessages();
+      } else {
+        throw new Error('Failed to send message');
+      }
+
+    } catch (error) {
+      console.error('Failed to upload file:', error);
+      
+      const errorMessage: ChatMessage = {
+        id: Date.now().toString(),
+        sender: 'system',
+        content: 'Failed to upload file. Please try again.',
+        timestamp: new Date(),
+        type: 'text'
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+      e.target.value = '';
+    }
   };
 
   const getPartnerName = () => {
@@ -178,7 +244,7 @@ export default function PrivateChat() {
                   </div>
                 ) : message.type === 'file' && message.file ? (
                   <div className="message-file">
-                    <div className="file-icon">📎</div>
+                    <div className="file-icon">File</div>
                     <div>
                       <div className="file-name">{message.file.name}</div>
                       <div className="file-size">Click to download</div>
@@ -203,7 +269,7 @@ export default function PrivateChat() {
               onClick={() => fileInputRef.current?.click()}
               title="Send photo or file"
             >
-              📎
+              Attach
             </button>
             <textarea
               value={input}
@@ -219,7 +285,7 @@ export default function PrivateChat() {
               disabled={!input.trim() || isLoading || !isConnected}
               className="chat-send-btn"
             >
-              {isLoading ? '⏳' : '💌'}
+              {isLoading ? 'Sending...' : 'Send'}
             </button>
           </div>
           
@@ -233,9 +299,9 @@ export default function PrivateChat() {
           
           <div className="chat-disclaimer">
             {isConnected ? (
-              <>💝 End-to-end encrypted • Messages are private and secure</>
+              <>Encrypted • Messages are private and secure</>
             ) : (
-              <>🔄 Connecting to secure chat...</>
+              <>Connecting to secure chat...</>
             )}
           </div>
         </div>
