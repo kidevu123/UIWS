@@ -1,0 +1,6 @@
+services:
+  openwebui:
+    environment:
+      - ENABLE_OPENAI_API=true
+      - WEBUI_AUTH=false
+      - PORT=8080

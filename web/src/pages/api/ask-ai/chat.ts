@@ -37,13 +37,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                        'I\'m here to help with whatever you\'d like to discuss.';
         return res.status(200).json({ content });
       }
-    } catch (gatewayError) {
+    } catch (gatewayError: any) {
       console.warn('Gateway connection failed:', gatewayError.message);
     }
 
     // Fallback: Try direct OpenWebUI connection
     try {
-      const openwebuiResponse = await fetch('http://openwebui:8080/api/chat/completions', {
+      const openwebuiResponse = await fetch('http://openwebui:8080/api/openai/v1/chat/completions', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const content = data.choices?.[0]?.message?.content || data.content || 'I\'m here to listen and help.';
         return res.status(200).json({ content });
       }
-    } catch (openwebuiError) {
+    } catch (openwebuiError: any) {
       console.warn('OpenWebUI connection failed:', openwebuiError.message);
     }
 

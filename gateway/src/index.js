@@ -186,7 +186,7 @@ app.post("/stories/generate", async (req,res)=>{
     const cfg = await appSettings(pool);
     const model = cfg.defaultModel || process.env.DEFAULT_MODEL || "llama3.1:8b-instruct";
     const prompt = (req.body && req.body.prompt) || "Write a positive, uplifting story about personal growth.";
-    const r = await fetch(`${base}/v1/chat/completions`, {
+    const r = await fetch(`${base}/api/openai/v1/chat/completions`, {
       method:"POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({
@@ -242,7 +242,7 @@ app.post("/ai/chat", async (req,res)=>{
     
     const fullMessages = [systemPrompt, ...messages];
     
-    const r = await fetch(`${base}/v1/chat/completions`, {
+    const r = await fetch(`${base}/api/openai/v1/chat/completions`, {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify({
