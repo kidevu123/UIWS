@@ -19,6 +19,9 @@ export default function Layout({ children }: LayoutProps) {
   const mainNavItems: NavItem[] = [
     { href: '/dashboard', label: 'Home', icon: '🏠' },
     { href: '/ask-ai', label: 'Ask Anything', icon: '💭' },
+    { href: '/chat', label: 'Private Chat', icon: '💬' },
+    { href: '/positions', label: 'Positions', icon: '🌸' },
+    { href: '/kinks', label: 'Kink Explorer', icon: '🔍' },
     { href: '/appointments', label: 'Appointments', icon: '📅' },
   ];
 

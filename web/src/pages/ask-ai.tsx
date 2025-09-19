@@ -12,7 +12,9 @@ export default function AskAI() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [connectionStatus, setConnectionStatus] = useState<'connected' | 'connecting' | 'error'>('connected');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Load conversation from localStorage on mount
@@ -56,7 +58,9 @@ export default function AskAI() {
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+    setIsTyping(true);
     setError(null);
+    setConnectionStatus('connecting');
 
     try {
       // Call our API endpoint that proxies to OpenWebUI
@@ -74,31 +78,42 @@ export default function AskAI() {
       });
 
       if (!response.ok) {
+        setConnectionStatus('error');
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
+      setConnectionStatus('connected');
       
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.content || data.message || 'I apologize, but I encountered an issue responding to you.',
-        timestamp: new Date()
-      };
+      // Simulate typing delay for more natural feel
+      setTimeout(() => {
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: data.content || data.message || 'I apologize, but I encountered an issue responding to you.',
+          timestamp: new Date()
+        };
 
-      setMessages(prev => [...prev, assistantMessage]);
+        setMessages(prev => [...prev, assistantMessage]);
+        setIsTyping(false);
+      }, 800);
+      
     } catch (err) {
       console.error('Chat error:', err);
+      setConnectionStatus('error');
       setError('I apologize, but I\'m having trouble connecting right now. Please try again in a moment.');
       
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: 'I apologize, but I\'m having trouble connecting right now. Please try again in a moment.',
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
+      setTimeout(() => {
+        const errorMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: 'I apologize, but I\'m having trouble connecting to my AI brain right now. Please try again in a moment. 💔',
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, errorMessage]);
+        setIsTyping(false);
+      }, 500);
     } finally {
       setIsLoading(false);
     }
@@ -161,17 +176,34 @@ export default function AskAI() {
               key={message.id}
               className={`message ${message.role === 'user' ? 'message-user' : 'message-assistant'}`}
             >
+              <div className="message-header">
+                <div className="message-avatar">
+                  {message.role === 'user' ? '💝' : '🤖'}
+                </div>
+                <div className="message-meta">
+                  <div className="message-sender">
+                    {message.role === 'user' ? 'You' : 'AI Companion'}
+                  </div>
+                  <div className="message-time">
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                </div>
+              </div>
               <div className="message-content">
                 {message.content}
-              </div>
-              <div className="message-time">
-                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
             </div>
           ))}
 
-          {isLoading && (
+          {isTyping && (
             <div className="message message-assistant">
+              <div className="message-header">
+                <div className="message-avatar">🤖</div>
+                <div className="message-meta">
+                  <div className="message-sender">AI Companion</div>
+                  <div className="message-status">typing...</div>
+                </div>
+              </div>
               <div className="message-content typing">
                 <span></span>
                 <span></span>
@@ -184,15 +216,21 @@ export default function AskAI() {
         </div>
 
         <div className="chat-input-area">
-          {messages.length > 0 && (
-            <button 
-              className="btn-secondary btn-small"
-              onClick={clearConversation}
-              style={{ marginBottom: '12px' }}
-            >
-              🗑️ Clear conversation
-            </button>
-          )}
+          <div className="chat-status">
+            <div className={`connection-status status-${connectionStatus}`}>
+              {connectionStatus === 'connected' && '🟢 Connected'}
+              {connectionStatus === 'connecting' && '🟡 Connecting...'}
+              {connectionStatus === 'error' && '🔴 Connection issue'}
+            </div>
+            {messages.length > 0 && (
+              <button 
+                className="btn-secondary btn-small"
+                onClick={clearConversation}
+              >
+                🗑️ Clear conversation
+              </button>
+            )}
+          </div>
           
           <div className="chat-input-container">
             <textarea
