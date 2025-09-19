@@ -15,19 +15,19 @@ export default function Dashboard(){
     fetch("/api/me").then(r=>r.json()).then(setMe).catch(()=>{});
   },[]);
 
-  const greeting = me?.greeting || "Welcome, darling souls";
+  const greeting = me?.greeting || "Welcome to your wellness journey";
 
   return (
     <Layout>
       <div className="page-header">
         <h1 className="page-title">{greeting}</h1>
-        <p className="page-subtitle">Your intimate sanctuary where passion meets privacy</p>
+        <p className="page-subtitle">Your personal wellness and communication platform</p>
       </div>
 
       <div className="card">
         <div className="card-header">
-          <h2 className="card-title">Welcome to Your Private Oasis</h2>
-          <p className="card-subtitle">Everything here is sacred and private, crafted exclusively for your deepest connections.</p>
+          <h2 className="card-title">Welcome to Your Personal Wellness Hub</h2>
+          <p className="card-subtitle">Everything here is private and secure, designed to support your personal growth and healthy relationships.</p>
         </div>
         
         <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
@@ -40,12 +40,12 @@ export default function Dashboard(){
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
               <Icon name="brain" size={24} color="var(--accent)" />
-              <h3 className="h3" style={{ margin: 0 }}>Ask Anything</h3>
+              <h3 className="h3" style={{ margin: 0 }}>AI Assistant</h3>
             </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Your private AI companion for intimate conversations, relationship guidance, and personal journaling.
+              Your personal AI companion for wellness conversations, relationship guidance, and personal development.
             </p>
-            <a href="/ask-ai" className="btn btn-small">Begin Conversation</a>
+            <a href="/ask-ai" className="btn btn-small">Start Conversation</a>
           </div>
 
           <div style={{ 
@@ -60,7 +60,7 @@ export default function Dashboard(){
               <h3 className="h3" style={{ margin: 0 }}>Private Chat</h3>
             </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Secure, encrypted messaging sanctuary for your most intimate conversations.
+              Secure, encrypted messaging for your private conversations and communications.
             </p>
             <a href="/chat" className="btn btn-small">Enter Chat</a>
           </div>
@@ -74,12 +74,12 @@ export default function Dashboard(){
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
               <Icon name="flower" size={24} color="var(--accent-secondary)" />
-              <h3 className="h3" style={{ margin: 0 }}>Positions Explorer</h3>
+              <h3 className="h3" style={{ margin: 0 }}>Wellness Explorer</h3>
             </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Tasteful guide to intimate positions with educational content and beautiful illustrations.
+              Explore wellness practices, exercises, and mindfulness techniques for better health.
             </p>
-            <a href="/positions" className="btn btn-small">Explore Together</a>
+            <a href="/positions" className="btn btn-small">Explore Wellness</a>
           </div>
 
           <div style={{ 
@@ -91,12 +91,12 @@ export default function Dashboard(){
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
               <Icon name="search" size={24} color="var(--plum)" />
-              <h3 className="h3" style={{ margin: 0 }}>Desire Explorer</h3>
+              <h3 className="h3" style={{ margin: 0 }}>Interest Explorer</h3>
             </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Discover and communicate desires through consensual exploration and education.
+              Discover and explore personal interests, hobbies, and activities for personal growth.
             </p>
-            <a href="/kinks" className="btn btn-small">Discover Together</a>
+            <a href="/interests" className="btn btn-small">Discover Interests</a>
           </div>
 
           <div style={{ 
@@ -108,12 +108,12 @@ export default function Dashboard(){
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
               <Icon name="calendar" size={24} color="var(--gold)" />
-              <h3 className="h3" style={{ margin: 0 }}>Sacred Moments</h3>
+              <h3 className="h3" style={{ margin: 0 }}>Schedule & Planning</h3>
             </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Schedule and cherish your private moments with intelligent calendar coordination.
+              Schedule and plan your activities with intelligent calendar coordination.
             </p>
-            <a href="/appointments" className="btn btn-small">Plan Together</a>
+            <a href="/appointments" className="btn btn-small">Plan Activities</a>
           </div>
         </div>
       </div>
@@ -122,10 +122,10 @@ export default function Dashboard(){
         <div style={{ textAlign: 'center', padding: '20px' }}>
           <Icon name="lock" size={32} color="var(--accent)" style={{ marginBottom: '16px', opacity: 0.7 }} />
           <p style={{ opacity: 0.85, fontStyle: 'italic', marginBottom: '8px' }}>
-            Your sanctuary is protected by the highest standards of privacy and encryption.
+            Your data is protected by the highest standards of privacy and encryption.
           </p>
           <p style={{ opacity: 0.7, fontSize: '14px' }}>
-            Content is thoughtfully curated and always consensual. Your comfort and boundaries are sacred.
+            All content is curated for positive personal development and healthy relationships.
           </p>
         </div>
       </div>

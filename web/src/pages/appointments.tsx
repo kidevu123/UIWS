@@ -9,7 +9,7 @@ interface Appointment {
   startTime: Date;
   endTime: Date;
   createdBy: 'user1' | 'user2';
-  type: 'intimate' | 'date' | 'talk' | 'special';
+  type: 'wellness' | 'meeting' | 'talk' | 'special';
   isPrivate?: boolean;
 }
 
@@ -31,7 +31,7 @@ export default function AppointmentsPage(){
     date: '',
     startTime: '',
     endTime: '',
-    type: 'intimate' as const
+    type: 'wellness' as const
   });
 
   // Sample data for demonstration
@@ -45,16 +45,16 @@ export default function AppointmentsPage(){
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2, 19, 0),
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2, 22, 0),
         createdBy: 'user1',
-        type: 'date'
+        type: 'meeting'
       },
       {
         id: '2',
         title: 'Morning Connection',
-        description: 'Slow, intimate morning together before the day begins',
+        description: 'Slow, relaxing morning together before the day begins',
         startTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5, 8, 30),
         endTime: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5, 10, 0),
         createdBy: 'user2',
-        type: 'intimate'
+        type: 'wellness'
       },
       {
         id: '3',
@@ -100,8 +100,8 @@ export default function AppointmentsPage(){
 
   const getAppointmentTypeColor = (type: string) => {
     switch (type) {
-      case 'intimate': return 'var(--rose)';
-      case 'date': return 'var(--accent)';
+      case 'wellness': return 'var(--rose)';
+      case 'meeting': return 'var(--accent)';
       case 'talk': return 'var(--gold)';
       case 'special': return 'var(--neon)';
       default: return 'var(--ink-secondary)';
@@ -110,8 +110,8 @@ export default function AppointmentsPage(){
 
   const getAppointmentTypeIcon = (type: string) => {
     switch (type) {
-      case 'intimate': return 'heart';
-      case 'date': return 'sparkles';
+      case 'wellness': return 'heart';
+      case 'meeting': return 'sparkles';
       case 'talk': return 'chat';
       case 'special': return 'star';
       default: return 'calendar';
@@ -148,7 +148,7 @@ export default function AppointmentsPage(){
       date: '',
       startTime: '',
       endTime: '',
-      type: 'intimate'
+      type: 'wellness'
     });
   };
 
@@ -163,7 +163,7 @@ export default function AppointmentsPage(){
     <Layout>
       <div className="page-header">
         <h1 className="page-title">Sacred Moments</h1>
-        <p className="page-subtitle">Plan and cherish your intimate time together</p>
+        <p className="page-subtitle">Plan and cherish your personal time together</p>
       </div>
       
       {/* Navigation Header */}
@@ -367,8 +367,8 @@ export default function AppointmentsPage(){
                 <label>Type of Moment</label>
                 <div className="appointment-types">
                   {[
-                    { value: 'intimate', label: 'Intimate Time', icon: 'heart' },
-                    { value: 'date', label: 'Date Night', icon: 'sparkles' },
+                    { value: 'wellness', label: 'Wellness Time', icon: 'heart' },
+                    { value: 'meeting', label: 'Meeting', icon: 'sparkles' },
                     { value: 'talk', label: 'Deep Talk', icon: 'chat' },
                     { value: 'special', label: 'Special Event', icon: 'star' }
                   ].map(type => (

@@ -142,7 +142,7 @@ export default function PrivateChat() {
     <Layout>
       <div className="page-header">
         <h1 className="page-title">Private Chat</h1>
-        <p className="page-subtitle">Your secure space for intimate conversations</p>
+        <p className="page-subtitle">Your secure space for private conversations</p>
       </div>
 
       <div className="private-chat-container">

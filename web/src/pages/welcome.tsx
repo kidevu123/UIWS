@@ -43,12 +43,12 @@ export default function Welcome(){
 
   return (
     <div className="container">
-      <div className="greeting">Welcome, loves</div>
-      <div className="sub">A gentle beginning for your private sanctuary.</div>
+      <div className="greeting">Welcome</div>
+      <div className="sub">A gentle beginning for your personal wellness platform.</div>
 
       <div className="card" style={{marginTop:12}}>
-        <h3>Why I wanted us to have this space</h3>
-        <textarea rows={6} placeholder="Write from the heart…" value={text} onChange={e=>setText(e.target.value)} />
+        <h3>Why I wanted us to have this wellness space</h3>
+        <textarea rows={6} placeholder="Share your thoughts about health and wellness…" value={text} onChange={e=>setText(e.target.value)} />
         <div style={{display:"flex", gap:8, marginTop:10}}>
           <button className="btn" onClick={saveText}>Save</button>
           <button className="btn" onClick={startRec}>Record audio</button>
@@ -60,15 +60,15 @@ export default function Welcome(){
       <div className="card" style={{marginTop:12}}>
         <h3>First-use prompts</h3>
         <ul>
-          <li>What makes you feel closest to me?</li>
-          <li>Your favorite kind of surprise?</li>
-          <li>A fantasy you’re curious about exploring together?</li>
+          <li>What wellness practices make you feel your best?</li>
+          <li>Your favorite way to relax and unwind?</li>
+          <li>A health goal you're curious about exploring?</li>
         </ul>
       </div>
 
       <div className="card" style={{marginTop:12}}>
-        <h3>Guided Tour</h3>
-        <p>As you visit each space, watch for gentle hints. You are safe and cherished here.</p>
+        <h3>Getting Started</h3>
+        <p>As you explore each feature, you'll find helpful tips. This is your safe space for personal growth.</p>
         <button className="btn" onClick={() => { localStorage.setItem('uiw_welcome_done', '1'); location.href='/dashboard'; }}>Begin</button>
       </div>
     </div>

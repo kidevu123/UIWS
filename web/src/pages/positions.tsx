@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import Icon from '@/components/Icon';
 
-interface Position {
+interface Exercise {
   id: string;
   name: string;
   description: string;
@@ -11,124 +11,124 @@ interface Position {
   benefits: string[];
   tips: string[];
   illustration: string;
-  intimacyLevel: number; // 1-5 scale
-  communicationTips: string[];
+  wellnessLevel: number; // 1-5 scale
+  practiceNotes: string[];
   isTriedBy?: { user1: boolean; user2: boolean };
   isWishlisted?: { user1: boolean; user2: boolean };
 }
 
-// Premium educational position database with tasteful abstract representations
-const positionsDatabase: Position[] = [
+// Wellness and exercise database with mindfulness and fitness practices
+const exerciseDatabase: Exercise[] = [
   {
     id: '1',
-    name: 'The Eternal Embrace',
-    description: 'A tender, soul-connecting position that prioritizes emotional intimacy and profound connection. Perfect for slow, meaningful moments that transcend the physical.',
-    category: 'Soul Connection',
+    name: 'Partner Breathing Exercise',
+    description: 'A calming breathing exercise that promotes relaxation and connection. Perfect for stress relief and mindfulness practice.',
+    category: 'Mindfulness & Relaxation',
     difficulty: 'Beginner',
-    benefits: ['Deep emotional bonding', 'Full body intimacy', 'Enhanced communication', 'Comfortable for extended connection'],
-    tips: ['Maintain loving eye contact', 'Synchronize your breathing', 'Take your time to explore', 'Use soft pillows for comfort'],
-    communicationTips: ['Share what feels amazing', 'Express your emotions openly', 'Check in frequently', 'Use gentle touches to communicate'],
+    benefits: ['Reduces stress and anxiety', 'Improves focus', 'Enhances emotional connection', 'Easy to practice anywhere'],
+    tips: ['Find a quiet, comfortable space', 'Sit facing each other', 'Breathe slowly and deeply', 'Maintain gentle eye contact'],
+    practiceNotes: ['Practice for 5-10 minutes daily', 'Focus on synchronizing breath', 'Notice how you feel before and after', 'Use this as a daily check-in'],
     illustration: 'heart-embrace',
-    intimacyLevel: 5
+    wellnessLevel: 5
   },
   {
     id: '2',
-    name: 'Morning Sanctuary',
-    description: 'A side-by-side sanctuary that offers comfort, closeness, and endless caressing possibilities. Ideal for lazy mornings and tender evenings.',
-    category: 'Comfort & Care',
+    name: 'Morning Stretching Routine',
+    description: 'A gentle stretching sequence to start your day with energy and flexibility. Includes basic yoga poses and mobility exercises.',
+    category: 'Flexibility & Movement',
     difficulty: 'Beginner',
-    benefits: ['Deeply relaxing', 'Perfect for cuddling', 'Allows sensual touch', 'Low effort, high intimacy'],
-    tips: ['Adjust angles for perfect fit', 'Use hands for gentle exploration', 'Try different leg positions', 'Perfect for aftercare moments'],
-    communicationTips: ['Whisper sweet affirmations', 'Share your favorite sensations', 'Express gratitude', 'Plan your day together'],
+    benefits: ['Improves flexibility', 'Reduces muscle tension', 'Boosts morning energy', 'Prevents injury'],
+    tips: ['Start slowly and gently', 'Hold each stretch for 30 seconds', 'Focus on breath while stretching', 'Listen to your body'],
+    practiceNotes: ['Perfect for lazy mornings', 'Can be done in bed or on a mat', 'Great for partner encouragement', 'Builds healthy habits'],
     illustration: 'crescent-moon',
-    intimacyLevel: 4
+    wellnessLevel: 4
   },
   {
     id: '3',
-    name: 'Throne of Passion',
-    description: 'A regal seated position that allows for equal participation and exquisite rhythm control. Creates a beautiful power dynamic of shared control.',
-    category: 'Empowered Unity',
+    name: 'Partner Strength Training',
+    description: 'Bodyweight exercises that can be done with a partner for motivation and support. Includes squats, planks, and resistance exercises.',
+    category: 'Strength & Fitness',
     difficulty: 'Intermediate',
-    benefits: ['Shared rhythm control', 'Multiple angle variations', 'Deep penetration options', 'Enhanced creativity'],
-    tips: ['Choose a sturdy, comfortable seat', 'Start with gentle movements', 'Communicate rhythm preferences', 'Experiment with positions'],
-    communicationTips: ['Guide each other\'s movements', 'Express what feels incredible', 'Take turns leading', 'Celebrate the connection'],
+    benefits: ['Builds muscle strength', 'Improves cardiovascular health', 'Partner motivation', 'Fun and engaging workout'],
+    tips: ['Start with bodyweight exercises', 'Focus on proper form', 'Take turns counting reps', 'Celebrate progress together'],
+    practiceNotes: ['Encourage each other', 'Track progress together', 'Make it fun with music', 'Adjust difficulty as needed'],
     illustration: 'crown',
-    intimacyLevel: 4
+    wellnessLevel: 4
   },
   {
     id: '4',
-    name: 'Vertical Rapture',
-    description: 'An adventurous vertical position that ignites spontaneity and primal passion. Requires trust, balance, and exquisite communication.',
-    category: 'Adventure & Thrill',
+    name: 'Balance Challenge',
+    description: 'Advanced balance exercises that challenge stability and core strength. Great for improving coordination and body awareness.',
+    category: 'Balance & Coordination',
     difficulty: 'Advanced',
-    benefits: ['Spontaneous excitement', 'Full body engagement', 'Unique angle sensations', 'Quick passion moments'],
-    tips: ['Ensure stable footing always', 'Use wall support when needed', 'Consider height differences', 'Start with shorter durations'],
-    communicationTips: ['Constantly check comfort', 'Use safe words', 'Guide positioning', 'Express needs immediately'],
+    benefits: ['Improves balance and coordination', 'Strengthens core muscles', 'Enhances body awareness', 'Builds confidence'],
+    tips: ['Start with wall support', 'Focus on a fixed point', 'Engage your core', 'Progress gradually'],
+    practiceNotes: ['Safety first - use support when needed', 'Practice regularly for improvement', 'Track balance improvements', 'Challenge yourself appropriately'],
     illustration: 'mountain-peak',
-    intimacyLevel: 3
+    wellnessLevel: 3
   },
   {
     id: '5',
-    name: 'Secret Garden',
-    description: 'A nature-inspired position focusing on gentle exploration and mutual discovery. Emphasizes comfort, patience, and sensual awakening.',
-    category: 'Exploration & Discovery',
-    difficulty: 'Intermediate',
-    benefits: ['Encourages slow exploration', 'Comfortable for extended play', 'Multiple pleasure points', 'Deeply intimate bonding'],
-    tips: ['Create a cozy environment', 'Use luxurious soft surfaces', 'Take mindful breaks', 'Focus on sensation'],
-    communicationTips: ['Describe new sensations', 'Guide exploration', 'Share fantasies', 'Express wonder'],
+    name: 'Nature Walk Meditation',
+    description: 'A mindful walking practice that combines light exercise with meditation. Focus on connecting with nature and being present.',
+    category: 'Mindful Movement',
+    difficulty: 'Beginner',
+    benefits: ['Combines exercise with mindfulness', 'Reduces stress', 'Connects you with nature', 'Gentle cardiovascular exercise'],
+    tips: ['Choose a peaceful location', 'Walk at a comfortable pace', 'Focus on your surroundings', 'Leave devices behind'],
+    practiceNotes: ['Discuss what you notice', 'Practice gratitude', 'Share peaceful moments', 'Make it a regular habit'],
     illustration: 'blooming-flower',
-    intimacyLevel: 5
+    wellnessLevel: 5
   },
   {
     id: '6',
-    name: 'Butterfly Dance',
-    description: 'An elegant position that allows for graceful movement and rhythmic poetry. Creates a sense of floating together in perfect harmony.',
-    category: 'Artistic Expression',
-    difficulty: 'Intermediate',
-    benefits: ['Graceful, flowing movement', 'Unique sensual experiences', 'Artistic and beautiful', 'Perfect rhythm synchronization'],
-    tips: ['Move with slow grace', 'Focus on the flowing connection', 'Use music for inspiration', 'Practice patience and presence'],
-    communicationTips: ['Share the rhythm', 'Express the beauty you feel', 'Guide graceful movements', 'Celebrate the dance'],
+    name: 'Dance Movement',
+    description: 'Free-form dance movement that promotes self-expression and cardiovascular health. No experience required - just move to the music.',
+    category: 'Creative Expression',
+    difficulty: 'Beginner',
+    benefits: ['Improves cardiovascular health', 'Boosts mood and confidence', 'Enhances creativity', 'Fun and stress-relieving'],
+    tips: ['Choose music you love', 'Move however feels good', 'Don\'t worry about technique', 'Focus on having fun'],
+    practiceNotes: ['Express yourself freely', 'Share favorite music', 'Encourage each other', 'Celebrate movement'],
     illustration: 'butterfly',
-    intimacyLevel: 4
+    wellnessLevel: 4
   },
   {
     id: '7',
-    name: 'Ocean Tide',
-    description: 'A flowing position inspired by the rhythm of ocean waves. Features gentle, undulating movements that build and release like natural tides.',
-    category: 'Rhythm & Flow',
-    difficulty: 'Intermediate',
-    benefits: ['Natural rhythm building', 'Gentle intensity waves', 'Meditative connection', 'Stress release'],
-    tips: ['Follow natural breathing', 'Build intensity gradually', 'Allow natural pauses', 'Focus on the flow'],
-    communicationTips: ['Share the rhythm building', 'Express when waves feel perfect', 'Guide the tide together', 'Breathe as one'],
+    name: 'Progressive Relaxation',
+    description: 'A systematic relaxation technique that involves tensing and releasing different muscle groups. Excellent for stress relief.',
+    category: 'Stress Relief',
+    difficulty: 'Beginner',
+    benefits: ['Deep physical relaxation', 'Reduces muscle tension', 'Improves sleep quality', 'Manages stress and anxiety'],
+    tips: ['Find a quiet environment', 'Start with breathing', 'Tense and release gradually', 'Notice the difference'],
+    practiceNotes: ['Practice regularly for best results', 'Use guided audio if helpful', 'Check in with each other', 'Notice improvements over time'],
     illustration: 'wave',
-    intimacyLevel: 4
+    wellnessLevel: 4
   },
   {
     id: '8',
-    name: 'Starlight Connection',
-    description: 'A celestial-inspired position perfect for nighttime intimacy. Features gentle angles and soft movements under the cover of darkness.',
-    category: 'Nighttime Romance',
+    name: 'Evening Gratitude Practice',
+    description: 'A gentle evening practice combining light stretching with gratitude reflection. Perfect way to end the day peacefully.',
+    category: 'Evening Wellness',
     difficulty: 'Beginner',
-    benefits: ['Perfect for nighttime', 'Gentle and quiet', 'Romantic atmosphere', 'Easy transition to sleep'],
-    tips: ['Dim lighting preferred', 'Soft, quiet movements', 'Focus on gentle touches', 'Perfect before sleep'],
-    communicationTips: ['Whisper sweet words', 'Share bedtime thoughts', 'Express love softly', 'Plan tomorrow together'],
+    benefits: ['Promotes better sleep', 'Builds positive mindset', 'Reduces daily stress', 'Strengthens relationships'],
+    tips: ['Practice before bedtime', 'Share three things you\'re grateful for', 'Include gentle stretches', 'Keep it simple'],
+    practiceNotes: ['Share gratitude with your partner', 'Reflect on the day positively', 'Create a calming environment', 'Make it a nightly ritual'],
     illustration: 'star',
-    intimacyLevel: 5
+    wellnessLevel: 5
   }
 ];
 
-const categories = ['All', 'Soul Connection', 'Comfort & Care', 'Empowered Unity', 'Adventure & Thrill', 'Exploration & Discovery', 'Artistic Expression', 'Rhythm & Flow', 'Nighttime Romance'];
+const categories = ['All', 'Mindfulness & Relaxation', 'Flexibility & Movement', 'Strength & Fitness', 'Balance & Coordination', 'Mindful Movement', 'Creative Expression', 'Stress Relief', 'Evening Wellness'];
 const difficulties = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
-export default function Positions() {
-  const [positions, setPositions] = useState<Position[]>(positionsDatabase);
+export default function Wellness() {
+  const [exercises, setExercises] = useState<Exercise[]>(exerciseDatabase);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
-  const [selectedPosition, setSelectedPosition] = useState<Position | null>(null);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    let filtered = positionsDatabase;
+    let filtered = exerciseDatabase;
 
     if (selectedCategory !== 'All') {
       filtered = filtered.filter(p => p.category === selectedCategory);
@@ -146,7 +146,7 @@ export default function Positions() {
       );
     }
 
-    setPositions(filtered);
+    setExercises(filtered);
   }, [selectedCategory, selectedDifficulty, searchTerm]);
 
   const getDifficultyColor = (difficulty: string) => {
@@ -299,14 +299,14 @@ export default function Positions() {
   return (
     <Layout>
       <div className="page-header">
-        <h1 className="page-title">Intimate Positions Explorer</h1>
-        <p className="page-subtitle">Educational guide to passionate connection and soulful intimacy</p>
+        <h1 className="page-title">Wellness & Exercise Explorer</h1>
+        <p className="page-subtitle">Discover mindfulness practices, exercises, and wellness activities for better health</p>
       </div>
 
-      <div className="positions-container">
-        <div className="positions-filters">
+      <div className="exercises-container">
+        <div className="exercises-filters">
           <div className="filter-group">
-            <label className="filter-label">Search positions</label>
+            <label className="filter-label">Search exercises</label>
             <input
               type="text"
               placeholder="Search by name, description, or benefits..."
@@ -343,29 +343,29 @@ export default function Positions() {
           </div>
         </div>
 
-        <div className="positions-grid">
-          {positions.map((position) => (
+        <div className="exercises-grid">
+          {exercises.map((exercise) => (
             <div
-              key={position.id}
-              className="position-card"
-              onClick={() => setSelectedPosition(position)}
+              key={exercise.id}
+              className="exercise-card"
+              onClick={() => setSelectedExercise(exercise)}
             >
-              <div className="position-illustration">
-                {getIllustrationComponent(position.illustration)}
+              <div className="exercise-illustration">
+                {getIllustrationComponent(exercise.illustration)}
               </div>
-              <div className="position-info">
-                <h3 className="position-name">{position.name}</h3>
-                <p className="position-category">{position.category}</p>
-                <div className="position-meta">
+              <div className="exercise-info">
+                <h3 className="exercise-name">{exercise.name}</h3>
+                <p className="exercise-category">{exercise.category}</p>
+                <div className="exercise-meta">
                   <div 
-                    className="position-difficulty"
-                    style={{ color: getDifficultyColor(position.difficulty) }}
+                    className="exercise-difficulty"
+                    style={{ color: getDifficultyColor(exercise.difficulty) }}
                   >
-                    {position.difficulty}
+                    {exercise.difficulty}
                   </div>
-                  <div className="intimacy-level">
-                    {Array.from({ length: position.intimacyLevel }).map((_, i) => (
-                      <Icon key={i} name="heart" size={12} color="var(--rose)" style={{ marginRight: '2px' }} />
+                  <div className="wellness-level">
+                    {Array.from({ length: exercise.wellnessLevel }).map((_, i) => (
+                      <Icon key={i} name="star" size={12} color="var(--gold)" style={{ marginRight: '2px' }} />
                     ))}
                   </div>
                 </div>
@@ -374,86 +374,86 @@ export default function Positions() {
           ))}
         </div>
 
-        {positions.length === 0 && (
+        {exercises.length === 0 && (
           <div className="empty-state">
             <Icon name="search" size={64} color="var(--accent)" className="empty-icon" />
-            <h3 className="h3">No positions found</h3>
+            <h3 className="h3">No exercises found</h3>
             <p className="sub">Try adjusting your filters or search terms</p>
           </div>
         )}
       </div>
 
-      {selectedPosition && (
-        <div className="position-modal" onClick={() => setSelectedPosition(null)}>
-          <div className="position-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="position-modal-header">
-              <div className="position-modal-illustration">
-                {getIllustrationComponent(selectedPosition.illustration)}
+      {selectedExercise && (
+        <div className="exercise-modal" onClick={() => setSelectedExercise(null)}>
+          <div className="exercise-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="exercise-modal-header">
+              <div className="exercise-modal-illustration">
+                {getIllustrationComponent(selectedExercise.illustration)}
               </div>
               <div>
-                <h2 className="position-modal-title">{selectedPosition.name}</h2>
-                <div className="position-modal-meta">
-                  <span className="position-modal-category">{selectedPosition.category}</span>
+                <h2 className="exercise-modal-title">{selectedExercise.name}</h2>
+                <div className="exercise-modal-meta">
+                  <span className="exercise-modal-category">{selectedExercise.category}</span>
                   <span 
-                    className="position-modal-difficulty"
-                    style={{ color: getDifficultyColor(selectedPosition.difficulty) }}
+                    className="exercise-modal-difficulty"
+                    style={{ color: getDifficultyColor(selectedExercise.difficulty) }}
                   >
-                    {selectedPosition.difficulty}
+                    {selectedExercise.difficulty}
                   </span>
-                  <div className="intimacy-stars">
-                    {Array.from({ length: selectedPosition.intimacyLevel }).map((_, i) => (
-                      <Icon key={i} name="heart" size={14} color="var(--rose)" style={{ marginRight: '2px' }} />
+                  <div className="wellness-stars">
+                    {Array.from({ length: selectedExercise.wellnessLevel }).map((_, i) => (
+                      <Icon key={i} name="star" size={14} color="var(--gold)" style={{ marginRight: '2px' }} />
                     ))}
                   </div>
                 </div>
               </div>
               <button 
-                className="position-modal-close"
-                onClick={() => setSelectedPosition(null)}
+                className="exercise-modal-close"
+                onClick={() => setSelectedExercise(null)}
               >
                 <Icon name="close" size={20} color="var(--ink)" />
               </button>
             </div>
 
-            <div className="position-modal-body">
-              <div className="position-description">
-                <h4>Beautiful Description</h4>
-                <p>{selectedPosition.description}</p>
+            <div className="exercise-modal-body">
+              <div className="exercise-description">
+                <h4>About This Practice</h4>
+                <p>{selectedExercise.description}</p>
               </div>
 
-              <div className="position-benefits">
-                <h4>Intimate Benefits</h4>
+              <div className="exercise-benefits">
+                <h4>Health Benefits</h4>
                 <ul>
-                  {selectedPosition.benefits.map((benefit, index) => (
+                  {selectedExercise.benefits.map((benefit, index) => (
                     <li key={index}>{benefit}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="position-tips">
-                <h4>Tips for Blissful Connection</h4>
+              <div className="exercise-tips">
+                <h4>Practice Tips</h4>
                 <ul>
-                  {selectedPosition.tips.map((tip, index) => (
+                  {selectedExercise.tips.map((tip, index) => (
                     <li key={index}>{tip}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="position-communication">
-                <h4>Communication & Care</h4>
+              <div className="exercise-notes">
+                <h4>Practice Notes</h4>
                 <ul>
-                  {selectedPosition.communicationTips.map((tip, index) => (
-                    <li key={index}>{tip}</li>
+                  {selectedExercise.practiceNotes.map((note, index) => (
+                    <li key={index}>{note}</li>
                   ))}
                 </ul>
               </div>
             </div>
 
-            <div className="position-modal-footer">
-              <p className="position-disclaimer">
-                <Icon name="heart" size={16} color="var(--rose)" style={{ marginRight: '8px' }} />
-                Remember: Communication, consent, and comfort are the foundation of all beautiful intimate moments. 
-                Go at your own pace and prioritize each other's wellbeing above all.
+            <div className="exercise-modal-footer">
+              <p className="exercise-disclaimer">
+                <Icon name="star" size={16} color="var(--gold)" style={{ marginRight: '8px' }} />
+                Remember: Listen to your body, start slowly, and consult healthcare providers for any concerns. 
+                Focus on consistency and gradual progress for best results.
               </p>
             </div>
           </div>
