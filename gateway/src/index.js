@@ -63,24 +63,17 @@ app.post("/appointments", async (req,res)=>{
   res.json(q.rows[0]);
 });
 
-/** Positions via RedGifs (optional) */
-app.get("/positions/redgifs", async (req,res)=>{
+/** Exercise Content (placeholder for wellness content) */
+app.get("/exercise/content", async (req,res)=>{
   try{
-    const tag = req.query.tag || "romantic";
-    const cfg = await appSettings(pool);
-    const cid = cfg.REDGIFS_CLIENT_ID || process.env.REDGIFS_CLIENT_ID;
-    const cs = cfg.REDGIFS_CLIENT_SECRET || process.env.REDGIFS_CLIENT_SECRET;
-    if(!cid || !cs) return res.status(200).json({items:[], note:"Set REDGIFS_CLIENT_ID/SECRET to enable"});
-    const tokRes = await fetch("https://api.redgifs.com/v2/auth/temporary", { method:"POST" });
-    const tok = (await tokRes.json()).token;
-    const list = await fetch(`https://api.redgifs.com/v2/gifs/search?search_text=${encodeURIComponent(tag)}&count=20&order=trending`, {
-      headers: { "Authorization": "Bearer " + tok }
+    // This replaces the adult content API with wellness/exercise content
+    res.status(200).json({
+      items: [], 
+      note: "Exercise and wellness content coming soon. This replaces the previous adult content integration."
     });
-    const json = await list.json();
-    res.json(json);
   }catch(e){
     console.error(e);
-    res.status(500).json({message:"RedGifs error"});
+    res.status(500).json({message:"Exercise content error"});
   }
 });
 
@@ -90,14 +83,14 @@ app.post("/stories/generate", async (req,res)=>{
     const base = process.env.OPENWEBUI_BASE || "http://openwebui:8080";
     const cfg = await appSettings(pool);
     const model = cfg.defaultModel || process.env.DEFAULT_MODEL || "llama3.1:8b-instruct";
-    const prompt = (req.body && req.body.prompt) || "Write a romantic, loving, consensual story.";
+    const prompt = (req.body && req.body.prompt) || "Write a positive, uplifting story about personal growth.";
     const r = await fetch(`${base}/v1/chat/completions`, {
       method:"POST",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify({
         model,
         messages: [
-          { role:"system", content:"You are a loving, supportive partner. Keep content consensual and respectful."},
+          { role:"system", content:"You are a supportive writing assistant. Keep content positive, uplifting, and appropriate for all audiences."},
           { role:"user", content: prompt }
         ]
       })
@@ -119,10 +112,10 @@ app.post("/ai/chat", async (req,res)=>{
     const model = cfg.defaultModel || process.env.DEFAULT_MODEL || "llama3.1:8b-instruct";
     const messages = req.body?.messages || [];
     
-    // Add system prompt for intimate, supportive conversations
+    // Add system prompt for supportive conversations
     const systemPrompt = {
       role: "system", 
-      content: "You are a warm, caring, and intimate AI companion. You provide judgment-free support for personal conversations, relationship advice, and intimate discussions. You are empathetic, understanding, and always prioritize consent and healthy communication. Keep responses thoughtful and personal, not clinical or robotic."
+      content: "You are a warm, caring AI assistant focused on healthy relationships and personal wellness. You provide judgment-free support for personal conversations, relationship advice, and general wellness discussions. You are empathetic, understanding, and always prioritize healthy communication and well-being. Keep responses thoughtful and helpful."
     };
     
     const fullMessages = [systemPrompt, ...messages];
@@ -166,13 +159,10 @@ app.post("/tts", async (req,res)=>{
   }
 });
 
-/** Lovense (stub) */
-app.post("/toys/lovense/vibrate", async (req,res)=>{
-  const cfg = await appSettings(pool);
-  const token = cfg.LOVENSE_DEVELOPER_TOKEN || process.env.LOVENSE_DEVELOPER_TOKEN;
-  if(!token) return res.status(200).json({ok:false, note:"Set LOVENSE_DEVELOPER_TOKEN to enable"});
-  // Placeholder: real flow requires user pairing via Lovense Remote and callback URLs.
-  res.json({ ok:true, note:"Lovense integration scaffold ready" });
+/** Wellness tracking (placeholder) */
+app.post("/wellness/track", async (req,res)=>{
+  // This replaces the adult toy integration with general wellness tracking
+  res.json({ ok:true, note:"Wellness tracking feature placeholder" });
 });
 
 app.use("/settings", settingsRouter);
