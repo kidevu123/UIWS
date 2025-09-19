@@ -111,6 +111,46 @@ app.post("/stories/generate", async (req,res)=>{
   }
 });
 
+/** AI Chat via local LLM (OpenWebUI OpenAI-compatible) */
+app.post("/ai/chat", async (req,res)=>{
+  try{
+    const base = process.env.OPENWEBUI_BASE || "http://openwebui:8080";
+    const cfg = await appSettings(pool);
+    const model = cfg.defaultModel || process.env.DEFAULT_MODEL || "llama3.1:8b-instruct";
+    const messages = req.body?.messages || [];
+    
+    // Add system prompt for intimate, supportive conversations
+    const systemPrompt = {
+      role: "system", 
+      content: "You are a warm, caring, and intimate AI companion. You provide judgment-free support for personal conversations, relationship advice, and intimate discussions. You are empathetic, understanding, and always prioritize consent and healthy communication. Keep responses thoughtful and personal, not clinical or robotic."
+    };
+    
+    const fullMessages = [systemPrompt, ...messages];
+    
+    const r = await fetch(`${base}/v1/chat/completions`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        model,
+        messages: fullMessages,
+        temperature: 0.7,
+        max_tokens: 1000
+      })
+    });
+    
+    if (!r.ok) {
+      throw new Error(`OpenWebUI error: ${r.status}`);
+    }
+    
+    const j = await r.json();
+    const content = j.choices?.[0]?.message?.content || "I apologize, but I'm having trouble responding right now.";
+    res.json({ content });
+  }catch(e){
+    console.error(e);
+    res.status(500).json({message:"AI Chat error", error: e.message});
+  }
+});
+
 /** TTS relay to Piper HTTP */
 app.post("/tts", async (req,res)=>{
   try{
