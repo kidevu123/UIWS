@@ -20,8 +20,8 @@ export default function Layout({ children }: LayoutProps) {
     { href: '/dashboard', label: 'Home', icon: 'home' },
     { href: '/ask-ai', label: 'Ask Anything', icon: 'brain' },
     { href: '/chat', label: 'Private Chat', icon: 'chat' },
-    { href: '/positions', label: 'Positions', icon: 'flower' },
-    { href: '/kinks', label: 'Kink Explorer', icon: 'search' },
+    { href: '/positions', label: 'Wellness', icon: 'flower' },
+    { href: '/interests', label: 'Interest Explorer', icon: 'search' },
     { href: '/appointments', label: 'Appointments', icon: 'calendar' },
   ];
 
@@ -35,8 +35,8 @@ export default function Layout({ children }: LayoutProps) {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-title">Midnight Embrace</div>
-          <div className="brand-sub">Where hearts meet in golden twilight</div>
+          <div className="brand-title">Personal Wellness Hub</div>
+          <div className="brand-sub">Your platform for growth and wellbeing</div>
         </div>
 
         <nav className="nav">
@@ -69,9 +69,9 @@ export default function Layout({ children }: LayoutProps) {
         </nav>
 
         <div className="coming-soon-note">
-          <div className="coming-soon-title">More magical features</div>
+          <div className="coming-soon-title">More wellness features</div>
           <div className="coming-soon-text">
-            New intimate experiences are being lovingly crafted for you both.
+            New wellness and personal development tools are being developed for your journey.
           </div>
         </div>
       </aside>

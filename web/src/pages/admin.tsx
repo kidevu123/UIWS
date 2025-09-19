@@ -29,7 +29,7 @@ export default function Admin(){
     <Layout>
       <div className="page-header">
         <h1 className="page-title">Settings</h1>
-        <p className="page-subtitle">Configure your private sanctuary</p>
+        <p className="page-subtitle">Configure your personal wellness platform</p>
       </div>
       
       <div className="card">
@@ -69,10 +69,10 @@ export default function Admin(){
 
 
       <div className="card" style={{marginTop:12}}>
-        <h3>API Keys</h3>
-        <input placeholder="REDGIFS_CLIENT_ID" value={settings.REDGIFS_CLIENT_ID || ""} onChange={e=>setSettings({...settings, REDGIFS_CLIENT_ID:e.target.value})} />
-        <input placeholder="REDGIFS_CLIENT_SECRET" value={settings.REDGIFS_CLIENT_SECRET || ""} onChange={e=>setSettings({...settings, REDGIFS_CLIENT_SECRET:e.target.value})} />
-        <input placeholder="LOVENSE_DEVELOPER_TOKEN" value={settings.LOVENSE_DEVELOPER_TOKEN || ""} onChange={e=>setSettings({...settings, LOVENSE_DEVELOPER_TOKEN:e.target.value})} />
+        <h3>External Services</h3>
+        <p className="sub">Configure external API integrations for enhanced functionality.</p>
+        <input placeholder="Third-party API key (if needed)" value={settings.EXTERNAL_API_KEY || ""} onChange={e=>setSettings({...settings, EXTERNAL_API_KEY:e.target.value})} />
+        <input placeholder="Service webhook URL" value={settings.WEBHOOK_URL || ""} onChange={e=>setSettings({...settings, WEBHOOK_URL:e.target.value})} />
       </div>
 
       <div className="card" style={{marginTop:12}}>

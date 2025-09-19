@@ -136,7 +136,7 @@ export default function AskAI() {
     <Layout>
       <div className="page-header">
         <h1 className="page-title">Ask Anything</h1>
-        <p className="page-subtitle">Your private AI companion for intimate conversations</p>
+        <p className="page-subtitle">Your private AI companion for personal conversations</p>
       </div>
 
       <div className="chat-container">
@@ -159,10 +159,10 @@ export default function AskAI() {
                 </button>
                 <button 
                   className="starter-prompt"
-                  onClick={() => setInput("I'd like to explore new ways to connect intimately")}
+                  onClick={() => setInput("I'd like to explore new ways to connect personally")}
                 >
                   <Icon name="sparkles" size={20} color="var(--gold)" style={{ marginRight: '8px' }} />
-                  Intimacy exploration
+                  Personal connection
                 </button>
                 <button 
                   className="starter-prompt"

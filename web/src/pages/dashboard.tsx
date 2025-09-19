@@ -15,7 +15,7 @@ export default function Dashboard(){
     fetch("/api/me").then(r=>r.json()).then(setMe).catch(()=>{});
   },[]);
 
-  const greeting = me?.greeting || "Welcome, darling souls";
+  const greeting = me?.greeting || "Welcome to your wellness journey";
 
   return (
     <Layout>

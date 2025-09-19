@@ -27,7 +27,7 @@ export default function Home(){
         <div className="header">
           <div>
             <div className="greeting">Midnights Afterglow</div>
-            <div className="sub">Private passions in the hour of wildest dreams.</div>
+            <div className="sub">Personal wellness and growth platform.</div>
           </div>
         </div>
         <form onSubmit={submit} className="grid" style={{marginTop:12}}>
