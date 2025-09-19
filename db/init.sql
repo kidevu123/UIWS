@@ -32,3 +32,26 @@ CREATE TABLE IF NOT EXISTS settings (
 INSERT INTO settings(key, value) VALUES
 ('onboarding', '{"completed": false}'::jsonb) ON CONFLICT (key) DO NOTHING;
 
+
+-- Luxury UX tables
+CREATE TABLE IF NOT EXISTS partner_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  author_id UUID REFERENCES users(id),
+  text TEXT,
+  audio_key TEXT,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS feedback (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  author_id UUID REFERENCES users(id),
+  message TEXT,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS milestones (
+  key TEXT PRIMARY KEY,
+  count INTEGER DEFAULT 0,
+  updated_at TIMESTAMP DEFAULT now()
+);
+

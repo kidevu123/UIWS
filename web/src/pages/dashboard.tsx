@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 
 export default function Dashboard(){
   const [ob,setOb] = useState<any>(null);
-  useEffect(()=>{ fetch('/api/onboarding/state').then(r=>r.json()).then(s=>{ if(!s?.completed){ location.href='/onboarding'; } else { setOb(s);} }); },[]);
+  useEffect(()=>{ fetch('/api/onboarding/state').then(r=>r.json()).then(s=>{ if(!s?.completed){ location.href='/onboarding'; } else { setOb(s);} });
+    // First-login welcome
+    if(!localStorage.getItem('uiw_welcome_done')){ location.href='/welcome'; }
+  },[]);
 
   const [me,setMe] = useState<any>(null);
 

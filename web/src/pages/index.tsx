@@ -26,8 +26,8 @@ export default function Home(){
       <div className="card">
         <div className="header">
           <div>
-            <div className="greeting">Ultimate Intimacy World</div>
-            <div className="sub">A warm, private sanctuary built for two</div>
+            <div className="greeting">Midnights Afterglow</div>
+            <div className="sub">Private passions in the hour of wildest dreams.</div>
           </div>
         </div>
         <form onSubmit={submit} className="grid" style={{marginTop:12}}>

@@ -1,46 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito:wght@400;600;700&display=swap");
+
 :root{
-  --bg:#fff7fb;
-  --card:#ffe9f3;
-  --ink:#4b2b3f;
-  --accent:#e48db0;
-  --accent-2:#c6a7f0;
-  --success:#7bd389;
-  --shadow: 0 10px 30px rgba(0,0,0,0.08);
+  --bg:#0f1322;
+  --ink:#fbfbff;
+  --accent:#68e8ed;
+  --accent-2:#8566a2;
+  --plum:#622964;
+  --glass:rgba(255,255,255,0.06);
+  --stroke:rgba(255,255,255,0.16);
+  --shadow:0 20px 60px rgba(0,0,0,0.35);
 }
+
 *{box-sizing:border-box}
 html,body,#__next{height:100%}
+
 body{
   margin:0;
-  background: radial-gradient(1200px 800px at 50% -10%, #ffe1f0 0%, #fff7fb 40%, #ffffff 100%);
   color:var(--ink);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, "Apple Color Emoji","Segoe UI Emoji";
+  font-family: Nunito, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, "Apple Color Emoji","Segoe UI Emoji";
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  background:
+    radial-gradient(1200px 800px at 30% -10%, #0f1322 0%, #1b2545 40%, #2e2c56 70%, #6e5b92 100%),
+    radial-gradient(800px 600px at 80% 10%, rgba(104,232,237,0.08), transparent 60%),
+    radial-gradient(900px 700px at 20% 90%, rgba(98,41,100,0.10), transparent 60%);
 }
-a{color:inherit;text-decoration:none}
-.container{max-width:780px;margin:0 auto;padding:20px}
+
+/* Starfield / twinkle */
+body:before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,0.30), transparent);
+  background-repeat:no-repeat;
+  animation:twinkle 12s linear infinite;
+}
+@keyframes twinkle{ 0%{opacity:.7} 50%{opacity:1} 100%{opacity:.7} }
+
+/* App shell */
+.app{
+  min-height:100%;
+  display:grid;
+  grid-template-columns: 260px 1fr;
+}
+@media (max-width:980px){
+  .app{ grid-template-columns: 1fr }
+}
+
+/* Sidebar */
+.sidebar{
+  position:relative; z-index:1;
+  padding:28px 22px;
+  border-right:1px solid var(--stroke);
+  background: linear-gradient(180deg, rgba(21,26,39,0.55), rgba(34,50,95,0.35));
+  backdrop-filter: blur(10px);
+}
+.brand{
+  font-family:"Cormorant Garamond", serif;
+  font-weight:700; font-size:28px; letter-spacing:.3px;
+}
+.brand-sub{
+  margin-top:4px; opacity:.85; font-size:12.5px;
+}
+
+/* Nav */
+.nav-group-label{ margin-top:20px; font-size:12px; opacity:.8 }
+.nav{ margin-top:10px; display:grid; gap:10px }
+.nav a, .nav button{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 14px; border-radius:14px; border:1px solid var(--stroke);
+  background: var(--glass);
+  color:var(--ink); text-decoration:none; cursor:pointer;
+  transition: box-shadow .25s ease, transform .2s ease;
+}
+.nav a:hover, .nav button:hover{ box-shadow:0 0 22px rgba(104,232,237,0.28); transform: translateY(-1px) }
+.badge{ margin-left:auto; font-size:11px; padding:3px 8px; border-radius:10px; background:rgba(133,102,162,.25); border:1px solid rgba(255,255,255,.2) }
+
+/* Content */
+.content{ padding:32px; position:relative; z-index:1 }
 .card{
-  background:linear-gradient(180deg,var(--card),#fff);
+  background:linear-gradient(180deg, rgba(21,26,39,0.35), rgba(34,50,95,0.55));
+  border:1px solid var(--stroke);
   border-radius:22px;
+  backdrop-filter: blur(10px);
   box-shadow:var(--shadow);
-  padding:18px;
+  padding:20px;
 }
+
+/* Buttons */
 .btn{
-  display:inline-flex;gap:8px;align-items:center;justify-content:center;
-  padding:12px 16px;border-radius:16px;border:none;cursor:pointer;
-  background:linear-gradient(90deg,var(--accent),var(--accent-2));
-  color:white;font-weight:700;box-shadow:var(--shadow);
+  display:inline-flex; gap:10px; align-items:center; justify-content:center;
+  padding:12px 18px; border-radius:16px; border:1px solid var(--stroke); cursor:pointer;
+  background:linear-gradient(90deg, var(--accent), var(--plum));
+  color:white; font-weight:700; box-shadow:0 0 0 0 rgba(104,232,237,0.4);
+  transition: box-shadow .3s ease, transform .2s ease;
 }
-.nav{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.blur{
-  filter:blur(16px);transition:filter .25s ease;
-}
-.blur.revealed{filter:blur(0)}
-.header{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.greeting{font-size:28px;font-weight:800}
-.sub{opacity:.7}
+.btn:hover{ box-shadow:0 0 25px rgba(104,232,237,0.35); transform: translateY(-1px) }
+
+/* Typographic helpers */
+.h1{ font-family:"Cormorant Garamond", serif; font-size:34px; font-weight:700; letter-spacing:.3px }
+.sub{ opacity:.85 }
+
+/* Inputs */
 input,select,textarea{
-  width:100%;padding:12px;border-radius:14px;border:1px solid #ead1df;background:#fff9fb;
+  width:100%; padding:12px 14px; border-radius:16px;
+  border:1px solid var(--stroke); background: var(--glass);
+  color:var(--ink);
 }
-.grid{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (max-width:720px){.grid{grid-template-columns:1fr}}
+input::placeholder, textarea::placeholder{ color: rgba(255,255,255,0.68) }
+
+/* Grid helper */
+.grid{ display:grid; gap:14px; grid-template-columns:repeat(2,minmax(0,1fr)) }
+@media (max-width:720px){ .grid{ grid-template-columns:1fr } }

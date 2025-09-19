@@ -5,6 +5,7 @@ import pkg from "pg";
 import fetch from "node-fetch";
 const { Pool } = pkg;
 import settingsRouter from "./settings.js";
+import luxuryRouter from "./luxury.js";
 
 const app = express();
 
@@ -73,7 +74,7 @@ app.get("/positions/redgifs", async (req,res)=>{
     const tokRes = await fetch("https://api.redgifs.com/v2/auth/temporary", { method:"POST" });
     const tok = (await tokRes.json()).token;
     const list = await fetch(`https://api.redgifs.com/v2/gifs/search?search_text=${encodeURIComponent(tag)}&count=20&order=trending`, {
-      headers: { "Authorization": f"Bearer {tok}" }
+      headers: { "Authorization": "Bearer " + tok }
     });
     const json = await list.json();
     res.json(json);
@@ -135,6 +136,7 @@ app.post("/toys/lovense/vibrate", async (req,res)=>{
 });
 
 app.use("/settings", settingsRouter);
+app.use("/luxury", luxuryRouter);
 
 const PORT = 4000;
 app.listen(PORT, ()=> console.log(`Gateway on :${PORT}`));

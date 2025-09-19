@@ -31,7 +31,7 @@ export default function Onboarding(){
 
   return (
     <div className="container">
-      <div className="greeting">Welcome to Ultimate Intimacy World</div>
+      <div className="greeting">Welcome to Midnights Afterglow</div>
       <div className="sub">Let’s finish a few steps and you’ll be in.</div>
 
       <div className="card" style={{marginTop:12}}>

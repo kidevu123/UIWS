@@ -7,27 +7,27 @@
     encode gzip
 
     @api path /api* 
-    handle_path /api/* {
+    handle_path @api {
         reverse_proxy gateway:4000
     }
 
     @chat path /chat* 
-    handle_path /chat/* {
+    handle_path @chat {
         reverse_proxy vocechat:3000
     }
 
     @llm path /llm* 
-    handle_path /llm/* {
+    handle_path @llm {
         reverse_proxy openwebui:8080
     }
 
     @ollama path /ollama* 
-    handle_path /ollama/* {
+    handle_path @ollama {
         reverse_proxy ollama:11434
     }
 
     @tts path /tts* 
-    handle_path /tts/* {
+    handle_path @tts {
         reverse_proxy tts:5000
     }
 

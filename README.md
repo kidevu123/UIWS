@@ -103,3 +103,16 @@ All configuration is guided by CLI prompts and the web onboarding screens. Updat
 - **HTTPS help**: If `APP_DOMAIN` or certs are missing, the UI shows what DNS records to add and when to restart proxy.
 
 If a required service fails to start, onboarding will **stop** and show the reason, rather than proceeding silently.
+
+## Luxury Experience (Optional but Delightful)
+
+- **Personalized Welcome**: Each partner can write or record a “why this space” message, saved privately.
+- **First-use Prompts**: Gentle, loving questions to spark connection.
+- **Guided Tour**: Friendly hints on the first visit to each module.
+- **Avatar Guide**: Gender-neutral assistant who can speak tips using the browser’s speech engine.
+- **Theme Packs**: Soft Blush, Cozy Winter, Sultry Velvet, and Dark Romance; toggle background music.
+- **Seasonal & Anniversary**: Banners and greetings on your special days.
+- **Gratitude & Feedback**: Leave kind notes and track shared milestones.
+- **Backups**: Download a zip of your data from Admin. Optional SMTP health notifications.
+
+These are fully self-contained and configurable from the Admin page, no file editing needed.

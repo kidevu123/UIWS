@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { THEME_PACKS } from "@/lib/themes";
 export default function Admin(){
   const helpCard = (k:string, msg:string) => (
   <div className="card" key={"help-"+k} style={{marginTop:12}}>
@@ -27,9 +28,40 @@ export default function Admin(){
     <div className="container">
       <div className="greeting">Admin & Settings</div>
       <div className="card" style={{marginTop:12}}>
+  <h3>Theme & Mood</h3>
+  <select value={settings.theme || "soft-blush"} onChange={e=>setSettings({...settings, theme: e.target.value})}>
+    {Object.entries(THEME_PACKS).map(([k,v]:any)=>(<option value={k} key={k}>{v.name}</option>))}
+  </select>
+  <p className="sub">Themes change fonts, backgrounds, accents. Switch anytime.</p>
+  <label style={{display:'block', marginTop:8}}>
+    <input type="checkbox" checked={!!settings.bg_music} onChange={e=>setSettings({...settings, bg_music: e.target.checked})} /> Gentle background music
+  </label>
+  <label style={{display:'block'}}>
+    Anniversary date: <input type="date" value={settings.anniversary || ''} onChange={e=>setSettings({...settings, anniversary: e.target.value})} />
+  </label>
+</div>
+
+
+      <div className="card" style={{marginTop:12}}>
         <h3>Model</h3>
         <input placeholder="defaultModel" value={settings.defaultModel || ""} onChange={e=>setSettings({...settings, defaultModel:e.target.value})} />
       </div>
+<div className="card" style={{marginTop:12}}>
+  <h3>Backups & Notifications</h3>
+  <a className="btn" href="/api/luxury/backup.zip">Download encrypted backup (zip)</a>
+  <div className="grid" style={{marginTop:10}}>
+    <input placeholder="SMTP host" value={settings.smtp_host || ""} onChange={e=>setSettings({...settings, smtp_host:e.target.value})} />
+    <input placeholder="SMTP port" value={settings.smtp_port || ""} onChange={e=>setSettings({...settings, smtp_port:e.target.value})} />
+    <input placeholder="SMTP user" value={settings.smtp_user || ""} onChange={e=>setSettings({...settings, smtp_user:e.target.value})} />
+    <input placeholder="SMTP pass" value={settings.smtp_pass || ""} onChange={e=>setSettings({...settings, smtp_pass:e.target.value})} />
+    <input placeholder="From email" value={settings.smtp_from || ""} onChange={e=>setSettings({...settings, smtp_from:e.target.value})} />
+    <input placeholder="Notify email" value={settings.notify_email || ""} onChange={e=>setSettings({...settings, notify_email:e.target.value})} />
+  </div>
+  <label style={{display:'block', marginTop:8}}>
+    <input type="checkbox" checked={!!settings.health_notifications} onChange={e=>setSettings({...settings, health_notifications: e.target.checked})} /> Periodic health notifications
+  </label>
+</div>
+
 
       <div className="card" style={{marginTop:12}}>
         <h3>API Keys</h3>
