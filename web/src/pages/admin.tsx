@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Layout from "@/components/Layout";
 
 import { THEME_PACKS } from "@/lib/themes";
 export default function Admin(){
@@ -25,9 +26,13 @@ export default function Admin(){
   };
 
   return (
-    <div className="container">
-      <div className="greeting">Admin & Settings</div>
-      <div className="card" style={{marginTop:12}}>
+    <Layout>
+      <div className="page-header">
+        <h1 className="page-title">Settings</h1>
+        <p className="page-subtitle">Configure your private sanctuary</p>
+      </div>
+      
+      <div className="card">
   <h3>Theme & Mood</h3>
   <select value={settings.theme || "soft-blush"} onChange={e=>setSettings({...settings, theme: e.target.value})}>
     {Object.entries(THEME_PACKS).map(([k,v]:any)=>(<option value={k} key={k}>{v.name}</option>))}
@@ -88,6 +93,6 @@ export default function Admin(){
 
       <button className="btn" onClick={save}>Save</button>
       {saved && <span style={{marginLeft:12}}>Saved ✓</span>}
-    </div>
+    </Layout>
   );
 }
