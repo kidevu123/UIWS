@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "@/components/Layout";
+import Icon from "@/components/Icon";
 
 export default function Dashboard(){
   const [ob,setOb] = useState<any>(null);
@@ -14,94 +15,119 @@ export default function Dashboard(){
     fetch("/api/me").then(r=>r.json()).then(setMe).catch(()=>{});
   },[]);
 
-  const greeting = me?.greeting || "Hello, Beautiful";
+  const greeting = me?.greeting || "Welcome, darling souls";
 
   return (
     <Layout>
       <div className="page-header">
         <h1 className="page-title">{greeting}</h1>
-        <p className="page-subtitle">Your intimate sanctuary awaits</p>
+        <p className="page-subtitle">Your intimate sanctuary where passion meets privacy</p>
       </div>
 
       <div className="card">
         <div className="card-header">
-          <h2 className="card-title">Welcome to Your Private Space</h2>
-          <p className="card-subtitle">Everything here is private and sacred, just for the two of you.</p>
+          <h2 className="card-title">Welcome to Your Private Oasis</h2>
+          <p className="card-subtitle">Everything here is sacred and private, crafted exclusively for your deepest connections.</p>
         </div>
         
         <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
           <div style={{ 
             padding: '24px', 
-            borderRadius: '16px', 
-            background: 'linear-gradient(135deg, rgba(104,232,237,0.1), rgba(133,102,162,0.1))',
-            border: '1px solid rgba(104,232,237,0.2)'
+            borderRadius: '20px', 
+            background: 'linear-gradient(135deg, rgba(192,132,252,0.15), rgba(168,85,247,0.12))',
+            border: '1px solid rgba(192,132,252,0.25)',
+            backdropFilter: 'blur(10px)'
           }}>
-            <h3 className="h3">🤖 Ask Anything</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <Icon name="brain" size={24} color="var(--accent)" />
+              <h3 className="h3" style={{ margin: 0 }}>Ask Anything</h3>
+            </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Your private AI companion for intimate conversations, questions, and journaling.
+              Your private AI companion for intimate conversations, relationship guidance, and personal journaling.
             </p>
-            <a href="/ask-ai" className="btn btn-small">Start Chatting</a>
+            <a href="/ask-ai" className="btn btn-small">Begin Conversation</a>
           </div>
 
           <div style={{ 
             padding: '24px', 
-            borderRadius: '16px', 
-            background: 'linear-gradient(135deg, rgba(214,139,176,0.1), rgba(98,41,100,0.1))',
-            border: '1px solid rgba(214,139,176,0.2)'
+            borderRadius: '20px', 
+            background: 'linear-gradient(135deg, rgba(236,72,153,0.15), rgba(88,28,135,0.12))',
+            border: '1px solid rgba(236,72,153,0.25)',
+            backdropFilter: 'blur(10px)'
           }}>
-            <h3 className="h3">💬 Private Chat</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <Icon name="chat" size={24} color="var(--rose)" />
+              <h3 className="h3" style={{ margin: 0 }}>Private Chat</h3>
+            </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Secure, intimate messaging space for just the two of you.
+              Secure, encrypted messaging sanctuary for your most intimate conversations.
             </p>
-            <a href="/chat" className="btn btn-small">Open Chat</a>
+            <a href="/chat" className="btn btn-small">Enter Chat</a>
           </div>
 
           <div style={{ 
             padding: '24px', 
-            borderRadius: '16px', 
-            background: 'linear-gradient(135deg, rgba(168,85,247,0.1), rgba(139,69,19,0.1))',
-            border: '1px solid rgba(168,85,247,0.2)'
+            borderRadius: '20px', 
+            background: 'linear-gradient(135deg, rgba(168,85,247,0.15), rgba(147,51,234,0.12))',
+            border: '1px solid rgba(168,85,247,0.25)',
+            backdropFilter: 'blur(10px)'
           }}>
-            <h3 className="h3">🌸 Positions Explorer</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <Icon name="flower" size={24} color="var(--accent-secondary)" />
+              <h3 className="h3" style={{ margin: 0 }}>Positions Explorer</h3>
+            </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Educational guide to intimate positions and connection techniques.
+              Tasteful guide to intimate positions with educational content and beautiful illustrations.
             </p>
             <a href="/positions" className="btn btn-small">Explore Together</a>
           </div>
 
           <div style={{ 
             padding: '24px', 
-            borderRadius: '16px', 
-            background: 'linear-gradient(135deg, rgba(236,72,153,0.1), rgba(147,51,234,0.1))',
-            border: '1px solid rgba(236,72,153,0.2)'
+            borderRadius: '20px', 
+            background: 'linear-gradient(135deg, rgba(88,28,135,0.15), rgba(30,27,75,0.12))',
+            border: '1px solid rgba(88,28,135,0.25)',
+            backdropFilter: 'blur(10px)'
           }}>
-            <h3 className="h3">🔍 Kink Explorer</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <Icon name="search" size={24} color="var(--plum)" />
+              <h3 className="h3" style={{ margin: 0 }}>Desire Explorer</h3>
+            </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Discover desires through consent-first exploration and education.
+              Discover and communicate desires through consensual exploration and education.
             </p>
             <a href="/kinks" className="btn btn-small">Discover Together</a>
           </div>
 
           <div style={{ 
             padding: '24px', 
-            borderRadius: '16px', 
-            background: 'linear-gradient(135deg, rgba(34,197,94,0.1), rgba(16,185,129,0.1))',
-            border: '1px solid rgba(34,197,94,0.2)'
+            borderRadius: '20px', 
+            background: 'linear-gradient(135deg, rgba(251,191,36,0.15), rgba(6,255,165,0.12))',
+            border: '1px solid rgba(251,191,36,0.25)',
+            backdropFilter: 'blur(10px)'
           }}>
-            <h3 className="h3">📅 Appointments</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <Icon name="calendar" size={24} color="var(--gold)" />
+              <h3 className="h3" style={{ margin: 0 }}>Sacred Moments</h3>
+            </div>
             <p className="sub" style={{ marginBottom: '16px' }}>
-              Schedule and manage your private moments together.
+              Schedule and cherish your private moments with intelligent calendar coordination.
             </p>
-            <a href="/appointments" className="btn btn-small">View Schedule</a>
+            <a href="/appointments" className="btn btn-small">Plan Together</a>
           </div>
         </div>
       </div>
 
       <div className="card">
-        <p style={{ textAlign: 'center', opacity: 0.8, fontStyle: 'italic' }}>
-          Explicit content is thoughtfully blurred until you choose to reveal it. 
-          Your privacy and comfort are paramount.
-        </p>
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <Icon name="lock" size={32} color="var(--accent)" style={{ marginBottom: '16px', opacity: 0.7 }} />
+          <p style={{ opacity: 0.85, fontStyle: 'italic', marginBottom: '8px' }}>
+            Your sanctuary is protected by the highest standards of privacy and encryption.
+          </p>
+          <p style={{ opacity: 0.7, fontSize: '14px' }}>
+            Content is thoughtfully curated and always consensual. Your comfort and boundaries are sacred.
+          </p>
+        </div>
       </div>
     </Layout>
   )

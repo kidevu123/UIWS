@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { useRouter } from 'next/router';
+import Icon from './Icon';
 
 interface LayoutProps {
   children: ReactNode;
@@ -8,8 +9,7 @@ interface LayoutProps {
 interface NavItem {
   href: string;
   label: string;
-  icon?: string;
-  isActive?: boolean;
+  icon: string;
 }
 
 export default function Layout({ children }: LayoutProps) {
@@ -17,16 +17,16 @@ export default function Layout({ children }: LayoutProps) {
 
   // Only show functional features - remove all placeholders
   const mainNavItems: NavItem[] = [
-    { href: '/dashboard', label: 'Home', icon: '🏠' },
-    { href: '/ask-ai', label: 'Ask Anything', icon: '💭' },
-    { href: '/chat', label: 'Private Chat', icon: '💬' },
-    { href: '/positions', label: 'Positions', icon: '🌸' },
-    { href: '/kinks', label: 'Kink Explorer', icon: '🔍' },
-    { href: '/appointments', label: 'Appointments', icon: '📅' },
+    { href: '/dashboard', label: 'Home', icon: 'home' },
+    { href: '/ask-ai', label: 'Ask Anything', icon: 'brain' },
+    { href: '/chat', label: 'Private Chat', icon: 'chat' },
+    { href: '/positions', label: 'Positions', icon: 'flower' },
+    { href: '/kinks', label: 'Kink Explorer', icon: 'search' },
+    { href: '/appointments', label: 'Appointments', icon: 'calendar' },
   ];
 
   const secondaryNavItems: NavItem[] = [
-    { href: '/admin', label: 'Settings', icon: '⚙️' },
+    { href: '/admin', label: 'Settings', icon: 'settings' },
   ];
 
   const isActive = (href: string) => router.pathname === href;
@@ -35,8 +35,8 @@ export default function Layout({ children }: LayoutProps) {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-title">Intimate Sanctuary</div>
-          <div className="brand-sub">Private space for two hearts</div>
+          <div className="brand-title">Midnight Embrace</div>
+          <div className="brand-sub">Where hearts meet in golden twilight</div>
         </div>
 
         <nav className="nav">
@@ -47,7 +47,7 @@ export default function Layout({ children }: LayoutProps) {
                 href={item.href}
                 className={`nav-item ${isActive(item.href) ? 'active' : ''}`}
               >
-                <span className="nav-icon">{item.icon}</span>
+                <Icon name={item.icon} size={20} className="nav-icon" />
                 <span className="nav-label">{item.label}</span>
               </a>
             ))}
@@ -61,7 +61,7 @@ export default function Layout({ children }: LayoutProps) {
                 href={item.href}
                 className={`nav-item ${isActive(item.href) ? 'active' : ''}`}
               >
-                <span className="nav-icon">{item.icon}</span>
+                <Icon name={item.icon} size={20} className="nav-icon" />
                 <span className="nav-label">{item.label}</span>
               </a>
             ))}
