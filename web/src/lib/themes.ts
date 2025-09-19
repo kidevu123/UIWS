@@ -28,7 +28,8 @@ export type ThemeKey =
   | "soft-blush"
   | "cozy-winter"
   | "sultry-velvet"
-  | "dark-romance";
+  | "dark-romance"
+  | "midnights-afterglow";
 
 /** World-class, cozy defaults. */
 export const THEME_PACKS: Record<ThemeKey, ThemePack> = {
@@ -88,6 +89,25 @@ export const THEME_PACKS: Record<ThemeKey, ThemePack> = {
     backgroundCss:
       "radial-gradient(1000px 700px at 50% -10%, #2a2038 0%, #0f0f14 70%)",
   },
+
+  "midnights-afterglow": {
+    name: "Midnights Afterglow",
+    vars: {
+      bg: "#0a0b1e",          // deep midnight blue
+      card: "#1a1b3a",        // slightly lighter midnight
+      ink: "#f8f6ff",         // star-white text
+      accent: "#00d4ff",      // electric cyan
+      accent2: "#8b5fbf",     // mystic lilac/velvet plum
+    },
+    font: '"Playfair Display", "Spectral", Georgia, serif',
+    backgroundCss: `
+      radial-gradient(1400px 900px at 25% -5%, #1a0d2e 0%, #0a0b1e 45%),
+      radial-gradient(1200px 800px at 75% 15%, rgba(0,212,255,0.12) 0%, transparent 60%),
+      radial-gradient(1000px 700px at 35% 85%, rgba(139,95,191,0.15) 0%, transparent 65%),
+      radial-gradient(800px 600px at 65% 45%, rgba(255,20,147,0.08) 0%, transparent 70%),
+      linear-gradient(180deg, #0a0b1e 0%, #1a0d2e 100%)
+    `,
+  },
 };
 
 /** Fallback-safe resolver (never returns undefined values). */
@@ -96,7 +116,7 @@ export function resolveThemeVars(themeKey?: string): {
   pack: ThemePack;
   cssVars: Record<string, string>;
 } {
-  const key = (themeKey as ThemeKey) in THEME_PACKS ? (themeKey as ThemeKey) : "soft-blush";
+  const key = (themeKey as ThemeKey) in THEME_PACKS ? (themeKey as ThemeKey) : "midnights-afterglow";
   const pack = THEME_PACKS[key];
 
   const cssVars: Record<string, string> = {

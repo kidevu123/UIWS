@@ -1,17 +1,29 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Dancing+Script:wght@400;500;600;700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
 :root{
-  --bg:#0f1322;
-  --ink:#fbfbff;
-  --accent:#68e8ed;
-  --accent-2:#8566a2;
-  --plum:#622964;
-  --rose:#d68bb0;
-  --glass:rgba(255,255,255,0.06);
-  --stroke:rgba(255,255,255,0.16);
-  --shadow:0 20px 60px rgba(0,0,0,0.35);
-  --shadow-soft:0 8px 32px rgba(0,0,0,0.25);
-  --glow:0 0 25px rgba(104,232,237,0.35);
+  /* Midnights Afterglow Color Palette */
+  --bg: #0a0b1e;          /* deep midnight blue */
+  --ink: #f8f6ff;         /* star-white text */
+  --accent: #00d4ff;      /* electric cyan */
+  --accent-2: #8b5fbf;    /* mystic lilac/velvet plum */
+  --plum: #6b2c5e;        /* deeper velvet plum */
+  --rose: #ff1493;        /* deep pink/fuchsia */
+  --gold: #ffd700;        /* iridescent gold accents */
+  --indigo: #1a0d2e;      /* deep indigo for depth */
+  
+  /* Glass and lighting effects */
+  --glass: rgba(248,246,255,0.08);
+  --glass-heavy: rgba(248,246,255,0.12);
+  --stroke: rgba(0,212,255,0.25);
+  --stroke-heavy: rgba(0,212,255,0.4);
+  
+  /* Enhanced shadows and glows */
+  --shadow: 0 25px 80px rgba(0,0,0,0.6);
+  --shadow-soft: 0 12px 40px rgba(0,0,0,0.4);
+  --shadow-dramatic: 0 35px 100px rgba(0,0,0,0.8);
+  --glow: 0 0 30px rgba(0,212,255,0.4);
+  --glow-intense: 0 0 50px rgba(0,212,255,0.6);
+  --glow-warm: 0 0 35px rgba(255,20,147,0.3);
 }
 
 *{box-sizing:border-box}
@@ -20,28 +32,68 @@ html,body,#__next{height:100%}
 body{
   margin:0;
   color:var(--ink);
-  font-family: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, "Apple Color Emoji","Segoe UI Emoji";
+  font-family: "Playfair Display", "Spectral", Georgia, serif;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
   font-weight: 400;
   line-height: 1.6;
   background:
-    radial-gradient(1200px 800px at 30% -10%, #0f1322 0%, #1b2545 40%, #2e2c56 70%, #6e5b92 100%),
-    radial-gradient(800px 600px at 80% 10%, rgba(104,232,237,0.08), transparent 60%),
-    radial-gradient(900px 700px at 20% 90%, rgba(98,41,100,0.10), transparent 60%);
+    /* Layered midnight gradients with theatrical lighting */
+    radial-gradient(1400px 900px at 25% -5%, #1a0d2e 0%, #0a0b1e 45%),
+    radial-gradient(1200px 800px at 75% 15%, rgba(0,212,255,0.12) 0%, transparent 60%),
+    radial-gradient(1000px 700px at 35% 85%, rgba(139,95,191,0.15) 0%, transparent 65%),
+    radial-gradient(800px 600px at 65% 45%, rgba(255,20,147,0.08) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0b1e 0%, #1a0d2e 100%);
 }
 
-/* Starfield / twinkle */
+/* Enhanced starfield with shimmer and multiple layers */
 body:before{
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
   background-image:
-    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 40% 80%, rgba(255,255,255,0.30), transparent);
+    /* Large bright stars */
+    radial-gradient(3px 3px at 15% 25%, rgba(248,246,255,0.8), transparent),
+    radial-gradient(2px 2px at 85% 15%, rgba(0,212,255,0.6), transparent),
+    radial-gradient(3px 3px at 70% 70%, rgba(255,215,0,0.5), transparent),
+    radial-gradient(2px 2px at 25% 80%, rgba(255,20,147,0.4), transparent),
+    /* Medium stars */
+    radial-gradient(2px 2px at 45% 10%, rgba(248,246,255,0.6), transparent),
+    radial-gradient(1px 1px at 90% 45%, rgba(139,95,191,0.5), transparent),
+    radial-gradient(2px 2px at 10% 60%, rgba(0,212,255,0.4), transparent),
+    /* Small twinkle stars */
+    radial-gradient(1px 1px at 60% 20%, rgba(248,246,255,0.4), transparent),
+    radial-gradient(1px 1px at 35% 55%, rgba(255,215,0,0.3), transparent),
+    radial-gradient(1px 1px at 80% 85%, rgba(255,20,147,0.3), transparent);
   background-repeat:no-repeat;
-  animation:twinkle 12s linear infinite;
+  animation: twinkle 8s ease-in-out infinite, shimmer 12s linear infinite;
 }
-@keyframes twinkle{ 0%{opacity:.7} 50%{opacity:1} 100%{opacity:.7} }
+
+/* Dramatic spotlight overlay */
+body:after{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:1;
+  background: 
+    radial-gradient(800px 600px at 50% 30%, rgba(0,212,255,0.03), transparent),
+    radial-gradient(1200px 800px at 30% 70%, rgba(255,20,147,0.02), transparent);
+  animation: spotlight 15s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle { 
+  0%, 100% { opacity: 0.7; transform: scale(1); } 
+  25% { opacity: 1; transform: scale(1.1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+  75% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes shimmer {
+  0% { filter: hue-rotate(0deg) brightness(1); }
+  33% { filter: hue-rotate(120deg) brightness(1.1); }
+  66% { filter: hue-rotate(240deg) brightness(0.9); }
+  100% { filter: hue-rotate(360deg) brightness(1); }
+}
+
+@keyframes spotlight {
+  0% { opacity: 0.3; transform: translateX(-10px) translateY(-5px); }
+  100% { opacity: 0.6; transform: translateX(10px) translateY(5px); }
+}
 
 /* App shell */
 .app{
@@ -342,6 +394,256 @@ input::placeholder, textarea::placeholder{ color: rgba(255,255,255,0.68) }
 /* Grid helper */
 .grid{ display:grid; gap:14px; grid-template-columns:repeat(2,minmax(0,1fr)) }
 @media (max-width:720px){ .grid{ grid-template-columns:1fr } }
+
+/* Login Page - Dramatic Entrance Styles */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.login-card {
+  background: 
+    linear-gradient(145deg, 
+      rgba(26,11,46,0.95) 0%, 
+      rgba(10,11,30,0.98) 25%, 
+      rgba(26,27,58,0.95) 75%, 
+      rgba(10,11,30,0.98) 100%
+    );
+  border: 2px solid var(--stroke-heavy);
+  border-radius: 32px;
+  backdrop-filter: blur(25px);
+  box-shadow: 
+    var(--shadow-dramatic),
+    inset 0 1px 0 rgba(0,212,255,0.1),
+    0 0 60px rgba(0,212,255,0.15);
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  animation: loginEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(600px 400px at 50% 0%, rgba(0,212,255,0.03), transparent),
+    radial-gradient(400px 300px at 100% 100%, rgba(255,20,147,0.02), transparent);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.login-card::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    transparent, 
+    rgba(0,212,255,0.2), 
+    transparent, 
+    rgba(255,20,147,0.1), 
+    transparent);
+  border-radius: 32px;
+  z-index: -2;
+  opacity: 0;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes loginEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(40px);
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1.02) translateY(-5px);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.6; }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.greeting {
+  font-family: "Playfair Display", serif;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, 
+    #f8f6ff 0%, 
+    #00d4ff 25%, 
+    #8b5fbf 50%, 
+    #ff1493 75%, 
+    #ffd700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 300% 300%;
+  animation: textShimmer 4s ease-in-out infinite;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 30px rgba(0,212,255,0.3);
+}
+
+.sub {
+  font-family: "Spectral", serif;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  opacity: 0.85;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  animation: fadeInUp 1s ease-out 0.3s backwards;
+}
+
+@keyframes textShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 0.85;
+    transform: translateY(0);
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.login-form input {
+  background: rgba(248,246,255,0.06);
+  border: 2px solid rgba(0,212,255,0.15);
+  border-radius: 20px;
+  padding: 18px 24px;
+  font-size: 16px;
+  color: var(--ink);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: "Spectral", serif;
+  box-shadow: 
+    inset 0 2px 10px rgba(0,0,0,0.2),
+    0 4px 20px rgba(0,0,0,0.1);
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(248,246,255,0.1);
+  box-shadow: 
+    inset 0 2px 10px rgba(0,0,0,0.2),
+    0 4px 30px rgba(0,0,0,0.2),
+    0 0 40px rgba(0,212,255,0.2);
+  transform: translateY(-2px);
+}
+
+.login-form input::placeholder {
+  color: rgba(248,246,255,0.5);
+  font-style: italic;
+}
+
+.login-btn {
+  background: linear-gradient(135deg, 
+    var(--accent) 0%, 
+    var(--accent-2) 50%, 
+    var(--rose) 100%);
+  border: none;
+  border-radius: 20px;
+  padding: 18px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Playfair Display", serif;
+  color: white;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 8px 32px rgba(0,212,255,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.login-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255,255,255,0.2), 
+    transparent);
+  transition: left 0.6s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 12px 40px rgba(0,212,255,0.4),
+    0 0 60px rgba(255,20,147,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.login-btn:hover::before {
+  left: 100%;
+}
+
+.login-btn:active {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .greeting {
+    font-size: 36px;
+  }
+  
+  .sub {
+    font-size: 16px;
+  }
+  
+  .login-card {
+    padding: 36px 28px;
+    margin: 20px;
+  }
+}
 
 /* Chat Styles */
 .chat-container {
