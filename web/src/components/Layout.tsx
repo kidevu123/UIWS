@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import Icon from './Icon';
+import FloatingAI from './FloatingAI';
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,11 +19,11 @@ export default function Layout({ children }: LayoutProps) {
   // Only show functional features - remove all placeholders
   const mainNavItems: NavItem[] = [
     { href: '/dashboard', label: 'Home', icon: 'home' },
-    { href: '/ask-ai', label: 'Ask Anything', icon: 'brain' },
+    { href: '/ask-ai', label: 'AI Assistant', icon: 'brain' },
     { href: '/chat', label: 'Private Chat', icon: 'chat' },
     { href: '/positions', label: 'Wellness', icon: 'flower' },
-    { href: '/interests', label: 'Interest Explorer', icon: 'search' },
-    { href: '/appointments', label: 'Appointments', icon: 'calendar' },
+    { href: '/interests', label: 'Interests', icon: 'search' },
+    { href: '/appointments', label: 'Calendar', icon: 'calendar' },
   ];
 
   const secondaryNavItems: NavItem[] = [
@@ -35,8 +36,8 @@ export default function Layout({ children }: LayoutProps) {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-title">Personal Wellness Hub</div>
-          <div className="brand-sub">Your platform for growth and wellbeing</div>
+          <div className="brand-title">Luxe Wellness</div>
+          <div className="brand-sub">Premium personal development</div>
         </div>
 
         <nav className="nav">
@@ -67,18 +68,14 @@ export default function Layout({ children }: LayoutProps) {
             ))}
           </div>
         </nav>
-
-        <div className="coming-soon-note">
-          <div className="coming-soon-title">More wellness features</div>
-          <div className="coming-soon-text">
-            New wellness and personal development tools are being developed for your journey.
-          </div>
-        </div>
       </aside>
 
       <main className="content">
         {children}
       </main>
+
+      {/* Floating AI Assistant - always available */}
+      <FloatingAI />
     </div>
   );
 }
