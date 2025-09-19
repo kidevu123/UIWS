@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Layout from '@/components/Layout';
+import Icon from '@/components/Icon';
 
 interface Message {
   id: string;
@@ -142,7 +143,7 @@ export default function AskAI() {
         <div className="chat-messages">
           {messages.length === 0 && (
             <div className="empty-state">
-              <div className="empty-icon">💭</div>
+              <Icon name="brain" size={64} color="var(--accent)" className="empty-icon" />
               <h3 className="h3">Start a conversation</h3>
               <p className="sub">
                 I'm here to listen, help, and chat about anything on your mind. 
@@ -153,19 +154,22 @@ export default function AskAI() {
                   className="starter-prompt"
                   onClick={() => setInput("How can I communicate better with my partner?")}
                 >
-                  💕 Relationship advice
+                  <Icon name="heart" size={20} color="var(--rose)" style={{ marginRight: '8px' }} />
+                  Relationship guidance
                 </button>
                 <button 
                   className="starter-prompt"
                   onClick={() => setInput("I'd like to explore new ways to connect intimately")}
                 >
-                  ✨ Intimacy guidance
+                  <Icon name="sparkles" size={20} color="var(--gold)" style={{ marginRight: '8px' }} />
+                  Intimacy exploration
                 </button>
                 <button 
                   className="starter-prompt"
                   onClick={() => setInput("Can you help me journal my thoughts and feelings?")}
                 >
-                  📝 Journaling support
+                  <Icon name="moon" size={20} color="var(--accent)" style={{ marginRight: '8px' }} />
+                  Personal journaling
                 </button>
               </div>
             </div>
@@ -178,7 +182,11 @@ export default function AskAI() {
             >
               <div className="message-header">
                 <div className="message-avatar">
-                  {message.role === 'user' ? '💝' : '🤖'}
+                  {message.role === 'user' ? (
+                    <Icon name="heart" size={18} color="white" />
+                  ) : (
+                    <Icon name="brain" size={18} color="var(--accent)" />
+                  )}
                 </div>
                 <div className="message-meta">
                   <div className="message-sender">
@@ -198,7 +206,9 @@ export default function AskAI() {
           {isTyping && (
             <div className="message message-assistant">
               <div className="message-header">
-                <div className="message-avatar">🤖</div>
+                <div className="message-avatar">
+                  <Icon name="brain" size={18} color="var(--accent)" />
+                </div>
                 <div className="message-meta">
                   <div className="message-sender">AI Companion</div>
                   <div className="message-status">typing...</div>
@@ -218,16 +228,32 @@ export default function AskAI() {
         <div className="chat-input-area">
           <div className="chat-status">
             <div className={`connection-status status-${connectionStatus}`}>
-              {connectionStatus === 'connected' && '🟢 Connected'}
-              {connectionStatus === 'connecting' && '🟡 Connecting...'}
-              {connectionStatus === 'error' && '🔴 Connection issue'}
+              {connectionStatus === 'connected' && (
+                <>
+                  <Icon name="check" size={16} color="#4ade80" style={{ marginRight: '6px' }} />
+                  Connected
+                </>
+              )}
+              {connectionStatus === 'connecting' && (
+                <>
+                  <Icon name="hourglass" size={16} color="#fbbf24" style={{ marginRight: '6px' }} />
+                  Connecting...
+                </>
+              )}
+              {connectionStatus === 'error' && (
+                <>
+                  <Icon name="exclamation" size={16} color="#f87171" style={{ marginRight: '6px' }} />
+                  Connection issue
+                </>
+              )}
             </div>
             {messages.length > 0 && (
               <button 
                 className="btn-secondary btn-small"
                 onClick={clearConversation}
               >
-                🗑️ Clear conversation
+                <Icon name="trash" size={16} style={{ marginRight: '6px' }} />
+                Clear conversation
               </button>
             )}
           </div>
@@ -247,7 +273,11 @@ export default function AskAI() {
               disabled={!input.trim() || isLoading}
               className="chat-send-btn"
             >
-              {isLoading ? '⏳' : '💫'}
+              {isLoading ? (
+                <Icon name="hourglass" size={18} color="white" />
+              ) : (
+                <Icon name="send" size={18} color="white" />
+              )}
             </button>
           </div>
           
