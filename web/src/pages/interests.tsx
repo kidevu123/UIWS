@@ -31,7 +31,7 @@ const interestsDatabase: InterestCategory[] = [
     id: 'creative',
     name: 'Creative Arts',
     description: 'Explore your artistic side through various creative mediums',
-    icon: '🎨',
+    icon: 'Art',
     difficulty: 'Beginner',
     activities: [
       {

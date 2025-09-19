@@ -439,6 +439,72 @@ app.get("/media/list", async (req, res) => {
   }
 });
 
+/** Chat Messages System */
+app.get("/chat/messages", async (req, res) => {
+  try {
+    const { limit = 50, offset = 0 } = req.query;
+    
+    const q = await pool.query(`
+      SELECT cm.*, 
+             s.email as sender_email, s.role as sender_role,
+             r.email as recipient_email, r.role as recipient_role
+      FROM chat_messages cm
+      LEFT JOIN users s ON cm.sender_id = s.id
+      LEFT JOIN users r ON cm.recipient_id = r.id
+      ORDER BY cm.created_at DESC
+      LIMIT $1 OFFSET $2
+    `, [limit, offset]);
+    
+    res.json(q.rows);
+  } catch (e) {
+    console.error('Chat messages error:', e);
+    res.status(500).json({ error: "Failed to fetch messages" });
+  }
+});
+
+app.post("/chat/messages", async (req, res) => {
+  try {
+    const { recipient_id, content, message_type = 'text', media_filename = null } = req.body;
+    
+    // For now, we'll use the first user as sender (in real app, get from JWT token)
+    const senderQuery = await pool.query("SELECT id FROM users ORDER BY created_at ASC LIMIT 1");
+    const sender_id = senderQuery.rows[0]?.id;
+    
+    if (!sender_id) {
+      return res.status(400).json({ error: "No sender found" });
+    }
+
+    const q = await pool.query(`
+      INSERT INTO chat_messages (sender_id, recipient_id, content, message_type, media_filename)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *
+    `, [sender_id, recipient_id, content, message_type, media_filename]);
+    
+    res.json(q.rows[0]);
+  } catch (e) {
+    console.error('Send message error:', e);
+    res.status(500).json({ error: "Failed to send message", message: e.message });
+  }
+});
+
+app.put("/chat/messages/:id/read", async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const q = await pool.query(`
+      UPDATE chat_messages 
+      SET read_at = NOW() 
+      WHERE id = $1 AND read_at IS NULL
+      RETURNING *
+    `, [id]);
+    
+    res.json({ success: true, updated: q.rowCount > 0 });
+  } catch (e) {
+    console.error('Mark read error:', e);
+    res.status(500).json({ error: "Failed to mark as read" });
+  }
+});
+
 app.use("/settings", settingsRouter);
 app.use("/luxury", luxuryRouter);
 

@@ -35,6 +35,17 @@ CREATE TABLE IF NOT EXISTS media (
   created_at TIMESTAMP DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS chat_messages (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  sender_id UUID REFERENCES users(id),
+  recipient_id UUID REFERENCES users(id),
+  content TEXT NOT NULL,
+  message_type TEXT DEFAULT 'text',
+  media_filename TEXT,
+  created_at TIMESTAMP DEFAULT now(),
+  read_at TIMESTAMP
+);
+
 -- Settings store
 CREATE TABLE IF NOT EXISTS settings (
   key TEXT PRIMARY KEY,
