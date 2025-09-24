@@ -40,7 +40,7 @@ export default function Home(){
             <div className="sub">Your personal wellness journey awaits</div>
           </div>
         </div>
-        <form onSubmit={submit} className="grid" style={{marginTop:0}}>
+        <form onSubmit={submit} className="login-form" style={{marginTop:0}}>
           <input 
             placeholder="Email address" 
             type="email"
