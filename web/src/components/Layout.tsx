@@ -21,8 +21,8 @@ export default function Layout({ children }: LayoutProps) {
     { href: '/dashboard', label: 'Home', icon: 'home' },
     { href: '/ask-ai', label: 'AI Assistant', icon: 'brain' },
     { href: '/chat', label: 'Private Chat', icon: 'chat' },
+    { href: '/stories/create', label: 'Story Builder', icon: 'edit' },
     { href: '/positions', label: 'Wellness', icon: 'flower' },
-    { href: '/interests', label: 'Interests', icon: 'search' },
     { href: '/appointments', label: 'Calendar', icon: 'calendar' },
   ];
 

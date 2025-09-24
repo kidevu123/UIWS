@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import Icon from '@/components/Icon';
+import { authFetch, handleAuthError } from '@/lib/auth';
+import { showErrorToast } from '@/lib/toast';
 
 interface Message {
   id: string;
@@ -10,6 +13,7 @@ interface Message {
 }
 
 export default function AskAI() {
+  const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -64,12 +68,9 @@ export default function AskAI() {
     setConnectionStatus('connecting');
 
     try {
-      // Call our API endpoint that proxies to OpenWebUI
-      const response = await fetch('/api/ask-ai/chat', {
+      // Use authFetch to handle authentication
+      const response = await authFetch('/api/ask-ai/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           messages: [...messages, userMessage].map(m => ({
             role: m.role,
@@ -80,7 +81,8 @@ export default function AskAI() {
 
       if (!response.ok) {
         setConnectionStatus('error');
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.content || `HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
@@ -91,30 +93,44 @@ export default function AskAI() {
         const assistantMessage: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: data.content || data.message || 'I apologize, but I encountered an issue responding to you.',
+          content: data.content || 'I apologize, but I encountered an issue responding to you.',
           timestamp: new Date()
         };
 
         setMessages(prev => [...prev, assistantMessage]);
         setIsTyping(false);
-      }, 800);
+      }, Math.random() * 1000 + 500); // Random delay between 500ms-1500ms
       
-    } catch (err) {
-      console.error('Chat error:', err);
+    } catch (error: any) {
+      console.error('AI chat error:', error);
       setConnectionStatus('error');
-      setError('I apologize, but I\'m having trouble connecting right now. Please try again in a moment.');
+      setIsTyping(false);
+      
+      if (handleAuthError(error, router)) return;
+      
+      let errorMessage = 'I apologize, but I\'m having trouble connecting right now. Please try again.';
+      
+      if (error.message && error.message.includes('Authentication required')) {
+        errorMessage = 'Please log in to continue our conversation.';
+      } else if (error.message && error.message.length < 200) {
+        errorMessage = error.message;
+      }
+      
+      setError(errorMessage);
       
       setTimeout(() => {
-        const errorMessage: Message = {
+        const errorResponse: Message = {
           id: (Date.now() + 1).toString(),
           role: 'assistant',
-          content: 'I apologize, but I\'m having trouble connecting to my AI brain right now. Please try again in a moment. 💔',
+          content: errorMessage,
           timestamp: new Date()
         };
         
-        setMessages(prev => [...prev, errorMessage]);
+        setMessages(prev => [...prev, errorResponse]);
         setIsTyping(false);
       }, 500);
+      
+      showErrorToast('Failed to get AI response');
     } finally {
       setIsLoading(false);
     }
