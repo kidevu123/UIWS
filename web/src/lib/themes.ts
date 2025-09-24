@@ -41,8 +41,7 @@ export const THEME_PACKS: Record<ThemeKey, ThemePack> = {
       accent: "#e48db0",
       accent2: "#c6a7f0",
     },
-    font:
-      'Quicksand, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial',
+    font: 'Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
     backgroundCss:
       "radial-gradient(1200px 800px at 50% -10%, #ffe1f0 0%, #fff7fb 40%, #ffffff 100%)",
   },
@@ -84,7 +83,7 @@ export const THEME_PACKS: Record<ThemeKey, ThemePack> = {
       accent: "#b57cf0",
       accent2: "#6c4ccf",
     },
-    font: '"Cormorant Garamond", Georgia, serif',
+    font: '"Playfair Display", Georgia, serif',
     backgroundCss:
       "radial-gradient(1000px 700px at 50% -10%, #2a2038 0%, #0f0f14 70%)",
   },
