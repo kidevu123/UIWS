@@ -164,7 +164,44 @@ export default function Admin(){
               value={settings.defaultModel || ""} 
               onChange={e=>setSettings({...settings, defaultModel:e.target.value})} 
             />
-            <p className="sub">Specify which LLM model to use (must be available in Ollama)</p>
+            <p className="sub">Specify which LLM model to use (must be available in your AI backend)</p>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>
+              OpenWebUI Base URL
+            </label>
+            <input 
+              placeholder="http://openwebui:8080 or your OpenWebUI instance URL" 
+              value={settings.openwebuiBase || ""} 
+              onChange={e=>setSettings({...settings, openwebuiBase:e.target.value})} 
+            />
+            <p className="sub">Base URL for your OpenWebUI/Ollama instance</p>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>
+              OpenWebUI API Key (Optional)
+            </label>
+            <input 
+              type="password"
+              placeholder="API key for authenticated OpenWebUI access" 
+              value={settings.openwebuiApiKey || ""} 
+              onChange={e=>setSettings({...settings, openwebuiApiKey:e.target.value})} 
+            />
+            <p className="sub">Leave empty if your OpenWebUI instance doesn't require authentication</p>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600 }}>
+              Brand Text/Name
+            </label>
+            <input 
+              placeholder="Your app's brand name (e.g., 'Luxe Wellness')" 
+              value={settings.brandName || ""} 
+              onChange={e=>setSettings({...settings, brandName:e.target.value})} 
+            />
+            <p className="sub">Customize the brand name shown throughout the app</p>
           </div>
 
           <div className="grid">

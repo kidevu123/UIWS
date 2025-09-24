@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Layout from "@/components/Layout";
 import Icon from "@/components/Icon";
+import { authFetch, handleAuthError } from '@/lib/auth';
+import { showErrorToast, showSuccessToast } from '@/lib/toast';
 
 interface Appointment {
   id: string;

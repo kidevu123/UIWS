@@ -43,6 +43,34 @@ function sign(user){
   return jwt.sign({ id: user.id, email: user.email, role: user.role, greeting: user.greeting }, JWT_SECRET, { expiresIn: "7d" });
 }
 
+// JWT middleware for protected routes
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+  
+  // Also check for cookie-based auth
+  const cookieHeader = req.headers.cookie;
+  const cookieToken = cookieHeader && cookieHeader.split(';')
+    .find(c => c.trim().startsWith('uiw_jwt='))
+    ?.split('=')[1];
+  
+  const finalToken = token || cookieToken;
+  
+  if (!finalToken) {
+    return res.status(401).json({ message: 'Access token required' });
+  }
+  
+  jwt.verify(finalToken, JWT_SECRET, (err, user) => {
+    if (err) {
+      console.error('JWT verification error:', err);
+      return res.status(403).json({ message: 'Invalid or expired token' });
+    }
+    req.userId = user.id;
+    req.user = user;
+    next();
+  });
+}
+
 app.get("/health", (_req, res)=> res.json({ ok:true }));
 
 /** Auth */
@@ -63,12 +91,17 @@ app.post("/auth/login", async (req,res)=>{
   }
 });
 
-app.get("/auth/me", async (req,res)=>{
-  // In a real build, verify cookie. For now, return first user basics to unblock UI.
+app.get("/auth/me", authenticateToken, async (req,res)=>{
   try{
-    const q = await pool.query("SELECT id,email,role,greeting FROM users ORDER BY created_at ASC LIMIT 1");
-    res.json(q.rows[0] || {});
-  }catch(e){ res.status(500).json({}); }
+    const q = await pool.query("SELECT id,email,role,greeting FROM users WHERE id=$1", [req.userId]);
+    if (!q.rowCount) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(q.rows[0]);
+  }catch(e){ 
+    console.error('Auth me error:', e);
+    res.status(500).json({ message: "Failed to fetch user info" }); 
+  }
 });
 
 /** Appointments (full CRUD) */
@@ -209,8 +242,8 @@ app.post("/stories/generate", async (req,res)=>{
 /** AI Chat via local LLM (OpenWebUI OpenAI-compatible) */
 app.post("/ai/chat", async (req,res)=>{
   try{
-    const base = process.env.OPENWEBUI_BASE || "http://openwebui:8080";
     const cfg = await appSettings(pool);
+    const base = cfg.openwebuiBase || process.env.OPENWEBUI_BASE || "http://openwebui:8080";
     const model = cfg.defaultModel || process.env.DEFAULT_MODEL || "llama3.1:8b-instruct";
     const messages = req.body?.messages || [];
     
@@ -242,9 +275,18 @@ app.post("/ai/chat", async (req,res)=>{
     
     const fullMessages = [systemPrompt, ...messages];
     
-    const r = await fetch(`${base}/api/openai/v1/chat/completions`, {
+    // Prepare headers with optional API key
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    
+    if (cfg.openwebuiApiKey) {
+      headers['Authorization'] = `Bearer ${cfg.openwebuiApiKey}`;
+    }
+    
+    const r = await fetch(`${base}/api/v1/chat/completions`, {
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers,
       body: JSON.stringify({
         model,
         messages: fullMessages,
@@ -440,7 +482,7 @@ app.get("/media/list", async (req, res) => {
 });
 
 /** Chat Messages System */
-app.get("/chat/messages", async (req, res) => {
+app.get("/chat/messages", authenticateToken, async (req, res) => {
   try {
     const { limit = 50, offset = 0 } = req.query;
     
@@ -451,9 +493,10 @@ app.get("/chat/messages", async (req, res) => {
       FROM chat_messages cm
       LEFT JOIN users s ON cm.sender_id = s.id
       LEFT JOIN users r ON cm.recipient_id = r.id
+      WHERE cm.sender_id = $3 OR cm.recipient_id = $3
       ORDER BY cm.created_at DESC
       LIMIT $1 OFFSET $2
-    `, [limit, offset]);
+    `, [limit, offset, req.userId]);
     
     res.json(q.rows);
   } catch (e) {
@@ -462,23 +505,19 @@ app.get("/chat/messages", async (req, res) => {
   }
 });
 
-app.post("/chat/messages", async (req, res) => {
+app.post("/chat/messages", authenticateToken, async (req, res) => {
   try {
     const { recipient_id, content, message_type = 'text', media_filename = null } = req.body;
     
-    // For now, we'll use the first user as sender (in real app, get from JWT token)
-    const senderQuery = await pool.query("SELECT id FROM users ORDER BY created_at ASC LIMIT 1");
-    const sender_id = senderQuery.rows[0]?.id;
-    
-    if (!sender_id) {
-      return res.status(400).json({ error: "No sender found" });
+    if (!content || content.trim() === '') {
+      return res.status(400).json({ error: "Message content is required" });
     }
 
     const q = await pool.query(`
       INSERT INTO chat_messages (sender_id, recipient_id, content, message_type, media_filename)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *
-    `, [sender_id, recipient_id, content, message_type, media_filename]);
+    `, [req.userId, recipient_id, content, message_type, media_filename]);
     
     res.json(q.rows[0]);
   } catch (e) {
@@ -487,16 +526,16 @@ app.post("/chat/messages", async (req, res) => {
   }
 });
 
-app.put("/chat/messages/:id/read", async (req, res) => {
+app.put("/chat/messages/:id/read", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     
     const q = await pool.query(`
       UPDATE chat_messages 
       SET read_at = NOW() 
-      WHERE id = $1 AND read_at IS NULL
+      WHERE id = $1 AND read_at IS NULL AND (recipient_id = $2 OR sender_id = $2)
       RETURNING *
-    `, [id]);
+    `, [id, req.userId]);
     
     res.json({ success: true, updated: q.rowCount > 0 });
   } catch (e) {
