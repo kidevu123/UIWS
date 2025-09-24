@@ -2,10 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    const { email, password, remember } = req.body || {};
+    
     const r = await fetch("http://gateway:4000/auth/login", {
       method: "POST",
       headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(req.body || {})
+      body: JSON.stringify({ email, password })
     });
     
     if (r.ok) {
@@ -13,8 +15,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       
       // Set JWT cookie if login successful
       if (data.token) {
+        // Different cookie durations based on "Remember me"
+        const maxAge = remember ? 30 * 24 * 60 * 60 : 0; // 30 days or session cookie
+        const maxAgeString = remember ? `; Max-Age=${maxAge}` : '';
+        
         res.setHeader('Set-Cookie', [
-          `uiw_jwt=${data.token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Strict`
+          `uiw_jwt=${data.token}; HttpOnly; Path=/; SameSite=Strict${maxAgeString}`
         ]);
       }
       
