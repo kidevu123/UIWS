@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
+import { authFetch, handleAuthError } from '@/lib/auth';
+import { showErrorToast, showSuccessToast } from '@/lib/toast';
 
 interface ChatMessage {
   id: string;
@@ -7,6 +10,9 @@ interface ChatMessage {
   content: string;
   timestamp: Date;
   type: 'text' | 'image' | 'file';
+  optimistic?: boolean;
+  error?: boolean;
+  retrying?: boolean;
   file?: {
     name: string;
     url: string;
@@ -27,6 +33,7 @@ interface BackendMessage {
 }
 
 export default function PrivateChat() {
+  const router = useRouter();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isConnected, setIsConnected] = useState(false);
@@ -35,6 +42,7 @@ export default function PrivateChat() {
   const [user, setUser] = useState<any>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const retryQueue = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
     // Get user info
