@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Heart } from 'lucide-react';
 
 export default function Home(){
   const [email,setEmail] = useState("");
@@ -35,9 +36,10 @@ export default function Home(){
     <div className="container">
       <div className="login-card">
         <div className="header">
-          <div>
-            <div className="greeting">Welcome Back</div>
-            <div className="sub">Your personal wellness journey awaits</div>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <Heart size={64} style={{ color: 'var(--accent)', margin: '0 auto 16px' }} />
+            <div className="greeting">Welcome to Our Private Space</div>
+            <div className="sub">Your intimate, secure space awaits</div>
           </div>
         </div>
         <form onSubmit={submit} className="login-form" style={{marginTop:0}}>
@@ -71,9 +73,9 @@ export default function Home(){
               fontSize: "14px", 
               textAlign: "center",
               padding: "12px",
-              background: "rgba(255,107,157,0.1)",
+              background: "rgba(244,63,94,0.1)",
               borderRadius: "12px",
-              border: "1px solid rgba(255,107,157,0.2)"
+              border: "1px solid rgba(244,63,94,0.2)"
             }}>
               {err}
             </div>

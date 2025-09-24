@@ -1,23 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
 
 :root{
-  /* Luxury wellness mobile app palette - inspired by modern dating/wellness apps */
-  --bg: #0a0a0f;
-  --bg-secondary: #141419;
-  --bg-tertiary: #1a1a23;
-  --card: #1c1c26;
-  --card-elevated: #212129;
-  --surface: #26262f;
+  /* Warm rose/pink theme to match bolt repository */
+  --bg: #fdf2f8;
+  --bg-secondary: #fce7f3;
+  --bg-tertiary: #fed7aa;
+  --card: rgba(255, 255, 255, 0.8);
+  --card-elevated: rgba(255, 255, 255, 0.9);
+  --surface: rgba(255, 255, 255, 0.6);
   
-  --ink: #ffffff;
-  --ink-secondary: #b4b4be;
-  --ink-tertiary: #8a8a94;
-  --ink-muted: #5a5a64;
+  --ink: #374151;
+  --ink-secondary: #6b7280;
+  --ink-tertiary: #9ca3af;
+  --ink-muted: #d1d5db;
   
-  /* Premium gradient accents */
-  --accent: #ff6b9d; /* warm pink */
-  --accent-secondary: #c471ed; /* purple */
-  --accent-tertiary: #12c2e9; /* cyan */
+  /* Rose/pink gradient accents - matching bolt repository */
+  --accent: #f43f5e; /* rose-500 */
+  --accent-secondary: #ec4899; /* pink-500 */
+  --accent-tertiary: #f97316; /* orange-500 */
   
   /* Luxury metallic tones */
   --gold: #f7c97f;
@@ -64,11 +64,7 @@ body{
   text-rendering:optimizeLegibility;
   font-weight: 400;
   line-height: 1.6;
-  background:
-    radial-gradient(1400px 900px at 20% -20%, rgba(255,107,157,0.05) 0%, transparent 50%),
-    radial-gradient(1200px 800px at 80% -10%, rgba(196,113,237,0.04) 0%, transparent 50%),
-    radial-gradient(800px 600px at 50% 50%, rgba(18,194,233,0.03) 0%, transparent 70%),
-    linear-gradient(135deg, var(--bg) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+  background: linear-gradient(to bottom right, #fdf2f8, #fce7f3, #fed7aa);
   background-attachment: fixed;
 }
 
