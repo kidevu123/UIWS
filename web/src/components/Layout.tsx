@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Icon from './Icon';
 import FloatingAI from './FloatingAI';
@@ -15,6 +15,21 @@ interface NavItem {
 
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
+  const [brandName, setBrandName] = useState('Luxe Wellness');
+
+  useEffect(() => {
+    // Load brand name from settings
+    fetch('/api/settings')
+      .then(r => r.json())
+      .then(settings => {
+        if (settings?.brandName) {
+          setBrandName(settings.brandName);
+        }
+      })
+      .catch(() => {
+        // Keep default if settings fail to load
+      });
+  }, []);
 
   // Only show functional features - remove all placeholders
   const mainNavItems: NavItem[] = [
@@ -36,7 +51,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-title">Luxe Wellness</div>
+          <div className="brand-title">{brandName}</div>
           <div className="brand-sub">Premium personal development</div>
         </div>
 

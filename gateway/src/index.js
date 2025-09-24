@@ -242,8 +242,8 @@ app.post("/stories/generate", async (req,res)=>{
 /** AI Chat via local LLM (OpenWebUI OpenAI-compatible) */
 app.post("/ai/chat", async (req,res)=>{
   try{
-    const base = process.env.OPENWEBUI_BASE || "http://openwebui:8080";
     const cfg = await appSettings(pool);
+    const base = cfg.openwebuiBase || process.env.OPENWEBUI_BASE || "http://openwebui:8080";
     const model = cfg.defaultModel || process.env.DEFAULT_MODEL || "llama3.1:8b-instruct";
     const messages = req.body?.messages || [];
     
@@ -275,9 +275,18 @@ app.post("/ai/chat", async (req,res)=>{
     
     const fullMessages = [systemPrompt, ...messages];
     
-    const r = await fetch(`${base}/api/openai/v1/chat/completions`, {
+    // Prepare headers with optional API key
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    
+    if (cfg.openwebuiApiKey) {
+      headers['Authorization'] = `Bearer ${cfg.openwebuiApiKey}`;
+    }
+    
+    const r = await fetch(`${base}/api/v1/chat/completions`, {
       method:"POST",
-      headers:{"Content-Type":"application/json"},
+      headers,
       body: JSON.stringify({
         model,
         messages: fullMessages,
